@@ -1,18 +1,25 @@
 <.header>
-  Board <%= @board.id %>
-  <:subtitle>This is a board record from your database.</:subtitle>
+  Board <%= @board.name %>
   <:actions>
     <.link patch={~p"/boards/#{@board}/edit"} phx-click={JS.push_focus()}>
       <.button>Edit board</.button>
     </.link>
-  </:actions>
+</:actions>
+
+<:actions>
+<.link patch={~p"/boards/#{@board}/lists/new"}>
+  <.button>New List</.button>
+</.link>
+</:actions>
+
 </.header>
 
-<.list>
-  <:item title="Name"><%= @board.name %></:item>
-</.list>
+<div class="grid grid-cols-8 gap-4">
 
-<.back navigate={~p"/boards"}>Back to boards</.back>
+<div :for={list <- @board.lists} class="border border-neutral-800 border-rounded">
+    <%= list.name %>
+</div>
+</div>
 
 <.modal :if={@live_action == :edit} id="board-modal" show on_cancel={JS.patch(~p"/boards/#{@board}")}>
   <.live_component
@@ -20,6 +27,18 @@
     id={@board.id}
     title={@page_title}
     action={@live_action}
+    board={@board}
+    patch={~p"/boards/#{@board}"}
+  />
+</.modal>
+
+<.modal :if={@live_action == :new_list} id="list-modal" show on_cancel={JS.patch(~p"/boards/#{@board}")}>
+  <.live_component
+    module={GrottoWeb.BoardLive.ListFormComponent}
+    id={"list-#{@board.id}"}
+    title={@page_title}
+    action={@live_action}
+    list={@list}
     board={@board}
     patch={~p"/boards/#{@board}"}
   />

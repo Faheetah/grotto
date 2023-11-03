@@ -35,7 +35,11 @@ defmodule Grotto.Boards do
       ** (Ecto.NoResultsError)
 
   """
-  def get_board!(id), do: Repo.get!(Board, id)
+  def get_board!(id) do
+    Board
+    |> preload(:lists)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Creates a board.

@@ -3,6 +3,7 @@ defmodule GrottoWeb.BoardLive.Index do
 
   alias Grotto.Boards
   alias Grotto.Boards.Board
+  alias Grotto.Lists.List
 
   @impl true
   def mount(_params, _session, socket) do
