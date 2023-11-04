@@ -74,7 +74,6 @@ defmodule GrottoWeb.BoardLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Board created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -7,6 +7,8 @@ defmodule Grotto.Boards do
   alias Grotto.Repo
 
   alias Grotto.Boards.Board
+  alias Grotto.Lists.Card
+  alias Grotto.Lists.List
 
   @doc """
   Returns the list of boards.
@@ -36,9 +38,36 @@ defmodule Grotto.Boards do
 
   """
   def get_board!(id) do
-    Board
-    |> preload(:lists)
-    |> Repo.get!(id)
+    board =
+      Repo.get!(Board, id)
+      |> Repo.preload(:lists)
+
+    Map.put(board, :lists, Enum.map(board.lists, &get_cards/1))
+  end
+
+  @card_tree """
+    SELECT id, parent_card_id, ARRAY[id] AS path
+    FROM cards
+    WHERE parent_card_id IS NULL
+    UNION ALL
+    SELECT c.id, c.parent_card_id, ct.path || c.id
+    FROM cards AS c
+    JOIN card_tree AS ct ON ct.id = c.parent_card_id
+    """
+
+  def get_cards(list) do
+    Repo.all(from c in Card, where: c.list_id == ^list.id)
+
+    cards = Card
+    |> recursive_ctes(true)
+    |> with_cte("card_tree", as: fragment(@card_tree))
+    |> join(:inner, [c], ct in "card_tree", on: ct.id == c.id)
+    |> where([c], c.list_id == ^list.id)
+    |> select([c, ct], %{c | id: c.id})
+    |> order_by([c, ct], ct.path)
+    |> Repo.all()
+
+    Map.put(list, :cards, cards)
   end
 
   @doc """

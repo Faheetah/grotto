@@ -14,11 +14,15 @@
 
 </.header>
 
-<div class="grid grid-cols-8 gap-4">
-
-<div :for={list <- @board.lists} class="border border-neutral-800 border-rounded">
-    <%= list.name %>
-</div>
+<div class="grid grid-cols-3 lg:grid-cols-6 gap-4">
+  <%= for list <- @board.lists do %>
+    <.live_component
+      module={GrottoWeb.BoardLive.ListComponent}
+      id={"list-#{list.id}"}
+      list={list}
+      live_action={@live_action}
+    />
+  <% end %>
 </div>
 
 <.modal :if={@live_action == :edit} id="board-modal" show on_cancel={JS.patch(~p"/boards/#{@board}")}>
@@ -35,7 +39,7 @@
 <.modal :if={@live_action == :new_list} id="list-modal" show on_cancel={JS.patch(~p"/boards/#{@board}")}>
   <.live_component
     module={GrottoWeb.BoardLive.ListFormComponent}
-    id={"list-#{@board.id}"}
+    id={"list-form-#{@board.id}"}
     title={@page_title}
     action={@live_action}
     list={@list}

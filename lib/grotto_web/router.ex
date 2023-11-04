@@ -24,6 +24,7 @@ defmodule GrottoWeb.Router do
     live "/boards/:id/edit", BoardLive.Show, :edit
     live "/boards/:id/delete", BoardLive.Show, :delete
     live "/boards/:id/lists/new", BoardLive.Show, :new_list
+    live "/boards/:id/lists/:list_id/cards/new", BoardLive.Show, :new_card
   end
 
   # Other scopes may use custom stacks.

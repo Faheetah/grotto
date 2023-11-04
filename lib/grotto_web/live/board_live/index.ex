@@ -16,9 +16,10 @@ defmodule GrottoWeb.BoardLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
+    {board_id, _} = Integer.parse(id)
     socket
     |> assign(:page_title, "Edit Board")
-    |> assign(:board, Boards.get_board!(id))
+    |> assign(:board, Boards.get_board!(board_id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -40,7 +41,8 @@ defmodule GrottoWeb.BoardLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    board = Boards.get_board!(id)
+    {board_id, _} = Integer.parse(id)
+    board = Boards.get_board!(board_id)
     {:ok, _} = Boards.delete_board(board)
 
     {:noreply, stream_delete(socket, :boards, board)}

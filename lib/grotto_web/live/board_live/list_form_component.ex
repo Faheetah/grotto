@@ -75,7 +75,6 @@ defmodule GrottoWeb.BoardLive.ListFormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "List created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

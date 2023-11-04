@@ -42,7 +42,6 @@ defmodule GrottoWeb.BoardLiveTest do
       assert_patch(index_live, ~p"/boards")
 
       html = render(index_live)
-      assert html =~ "Board created successfully"
       assert html =~ "some name"
     end
 

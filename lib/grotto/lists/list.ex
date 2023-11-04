@@ -3,10 +3,12 @@ defmodule Grotto.Lists.List do
   import Ecto.Changeset
 
   alias Grotto.Boards.Board
+  alias Grotto.Lists.Card
 
   schema "lists" do
     field :name, :string
     belongs_to :board, Board
+    has_many :cards, Card
 
     timestamps(type: :utc_datetime)
   end
