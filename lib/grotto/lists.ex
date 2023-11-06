@@ -140,6 +140,19 @@ defmodule Grotto.Lists do
     Repo.one(from c in Card, where: c.parent_card_id == ^card_id)
   end
 
+  def delete_card(%Card{} = card) do
+    child = get_child_card(card.id)
+
+    if child do
+      Multi.new()
+      |> Multi.update(:update_child_card, Card.changeset(child, %{"parent_card_id" => card.parent_card_id}))
+      |> Multi.delete(:delete_card, card)
+      |> Repo.transaction()
+    else
+      Repo.delete(card)
+    end
+  end
+
   @doc """
   Updates a list.
 

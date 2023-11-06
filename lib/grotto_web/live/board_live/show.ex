@@ -57,11 +57,41 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :board, board)}
   end
 
+  def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => "last", "list" => list}, socket) do
+    IO.inspect source_card, label: :SOURCE_CARD_ID
+    {source_card_id, _} = Integer.parse(source_card)
+    {list_id, _} = Integer.parse(list)
+    source_card = Lists.get_card!(source_card_id)
+
+    last_card =
+      socket.assigns.board.lists
+      |> Enum.find(fn l -> l.id == list_id end)
+      |> Map.get(:cards)
+      |> List.last()
+      |> IO.inspect
+
+    # @todo this fails when moving to an empty list
+    Lists.reorder_card(source_card_id, last_card.id)
+
+    board = Boards.get_board!(socket.assigns.board.id)
+    {:noreply, assign(socket, :board, board)}
+  end
+
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => target_card}, socket) do
+    IO.inspect {source_card, target_card}, label: :SOURCE_TARGET_hande_event
     {source_card_id, _} = Integer.parse(source_card)
     {target_card_id, _} = Integer.parse(target_card)
 
     Lists.reorder_card(source_card_id, target_card_id)
+
+    board = Boards.get_board!(socket.assigns.board.id)
+    {:noreply, assign(socket, :board, board)}
+  end
+
+  def handle_event("archive_card", %{"card" => card}, socket) do
+    # @todo this needs to reorder cards, then we can delete with no fkey
+    Lists.get_card!(card)
+    |> Lists.delete_card()
 
     board = Boards.get_board!(socket.assigns.board.id)
     {:noreply, assign(socket, :board, board)}

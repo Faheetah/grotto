@@ -13,20 +13,20 @@ defmodule GrottoWeb.BoardLive.ListComponent do
       </div>
       <%= for card <- list.cards do %>
         <div
-          id={"card-#{list.id}-#{card.id}-#{card.parent_card_id}"}
+          id={"card-#{list.id}-#{card.id}"}
           draggable="true"
-          ondragstart="dragStart(event)"
+          phx-keydown="deleteCard(event)"
           phx-hook="Drag"
           phx-value-card={card.id}
           class="p-2 bg-white text-sm"
         >
-          <%= card.name %> (parent_card_id: <%= card.parent_card_id %> id:<%= card.id %>)
+          <%= card.name %>
         </div>
       <% end %>
 
       <div>
         <.link onclick={"document.getElementById('card-input-#{list.id}').style.display = 'block'; document.getElementById('card-input-field-#{list.id}').focus(); this.hidden = true;"}>
-          <div class="p-2 text-sm w-full hover:bg-neutral-300">
+          <div phx-hook="Drag" id={"new-button-#{list.id}"} phx-value-card="last" phx-value-list={list.id} class="p-2 text-sm w-full hover:bg-neutral-300">
             + add card
           </div>
         </.link>

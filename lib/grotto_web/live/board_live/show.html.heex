@@ -14,7 +14,7 @@
 
 </.header>
 
-<div class="grid grid-cols-3 lg:grid-cols-6 gap-4">
+<div id="card-list" phx-hook="Keydown" class="grid grid-cols-3 lg:grid-cols-6 gap-4">
   <%= for list <- @board.lists do %>
     <.live_component
       module={GrottoWeb.BoardLive.ListComponent}
