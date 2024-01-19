@@ -48,6 +48,20 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :board, board)}
   end
 
+  @impl true
+  def handle_event("new_list", %{"value" => ""}, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("new_list", %{"board_id" => board_id, "value" => name}, socket) do
+    {:ok, list} = Grotto.Lists.create_list(%{"board_id" => board_id, "name" => name})
+
+    # this is ugly but we can't update/3 because of board
+    board = Grotto.Boards.get_board!(socket.assigns.board.id)
+    {:noreply, assign(socket, :board, board)}
+  end
+
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => "last", "list" => list}, socket) do
     {source_card_id, _} = Integer.parse(source_card)
     {list_id, _} = Integer.parse(list)
