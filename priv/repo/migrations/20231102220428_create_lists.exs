@@ -4,7 +4,7 @@ defmodule Grotto.Repo.Migrations.CreateLists do
   def change do
     create table(:lists) do
       add :name, :string
-      add :board_id, references(:boards, on_delete: :nothing)
+      add :board_id, references(:boards, on_delete: :delete_all)
 
       timestamps(type: :utc_datetime)
     end
