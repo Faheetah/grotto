@@ -41,8 +41,7 @@ defmodule GrottoWeb.BoardLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    {board_id, _} = Integer.parse(id)
-    board = Boards.get_board!(board_id)
+    board = Boards.get_board!(id)
     {:ok, _} = Boards.delete_board(board)
 
     {:noreply, stream_delete(socket, :boards, board)}

@@ -48,17 +48,12 @@ defmodule GrottoWeb.BoardLive.Show do
     {rank, _} = Integer.parse(rank)
 
     list = Lists.get_list!(list_id)
-
-    list.cards
-
-
     board = Boards.get_board!(list.board_id)
     # @todo really horrible performance, fix later
     {:noreply, assign(socket, :board, board)}
   end
 
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => "last", "list" => list}, socket) do
-    IO.inspect source_card, label: :SOURCE_CARD_ID
     {source_card_id, _} = Integer.parse(source_card)
     {list_id, _} = Integer.parse(list)
     source_card = Lists.get_card!(source_card_id)
@@ -68,17 +63,18 @@ defmodule GrottoWeb.BoardLive.Show do
       |> Enum.find(fn l -> l.id == list_id end)
       |> Map.get(:cards)
       |> List.last()
-      |> IO.inspect
 
     # @todo this fails when moving to an empty list
-    Lists.reorder_card(source_card_id, last_card.id)
+    case last_card do
+      nil -> Lists.reorder_card(source_card_id, nil, list)
+      target_card -> Lists.reorder_card(source_card_id, target_card.id, list)
+    end
 
     board = Boards.get_board!(socket.assigns.board.id)
     {:noreply, assign(socket, :board, board)}
   end
 
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => target_card}, socket) do
-    IO.inspect {source_card, target_card}, label: :SOURCE_TARGET_hande_event
     {source_card_id, _} = Integer.parse(source_card)
     {target_card_id, _} = Integer.parse(target_card)
 

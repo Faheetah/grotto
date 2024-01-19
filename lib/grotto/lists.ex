@@ -81,6 +81,56 @@ defmodule Grotto.Lists do
   end
 
   def reorder_card(id, id), do: nil
+
+  def reorder_card(source_card_id, nil, list_id) do
+    source_card = get_card!(source_card_id)
+    source_card_child = get_child_card(source_card.id)
+
+    changes = [
+      {
+        :source_card_child_changeset,
+        Card.changeset(source_card_child, %{"parent_card_id" => source_card.parent_card_id})
+      },
+      {
+        :source_card_changeset,
+        Card.changeset(source_card, %{"parent_card_id" => nil, "list_id" => list_id})
+      }
+    ]
+
+    Enum.reduce(changes, Multi.new(), fn {name, change}, multi ->
+      if change != nil do
+        Multi.update(multi, name, change)
+      else
+        multi
+      end
+    end)
+    |> Repo.transaction()
+  end
+
+  def reorder_card(source_card_id, target_card_id, list_id) do
+    source_card = get_card!(source_card_id)
+    source_card_child = get_child_card(source_card.id)
+
+    changes = [
+      {
+        :source_card_child_changeset,
+        Card.changeset(source_card_child, %{"parent_card_id" => source_card.parent_card_id})
+      },
+      {
+        :source_card_changeset,
+        Card.changeset(source_card, %{"parent_card_id" => target_card_id, "list_id" => list_id})
+      }
+    ]
+
+    Enum.reduce(changes, Multi.new(), fn {name, change}, multi ->
+      if change != nil do
+        Multi.update(multi, name, change)
+      else
+        multi
+      end
+    end)
+    |> Repo.transaction()
+  end
   def reorder_card(source_card_id, target_card_id) do
     source_card = get_card!(source_card_id)
     target_card = get_card!(target_card_id)
