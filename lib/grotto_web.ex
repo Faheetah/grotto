@@ -52,6 +52,7 @@ defmodule GrottoWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
+        container: {:div, class: "h-full"},
         layout: {GrottoWeb.Layouts, :app}
 
       unquote(html_helpers())

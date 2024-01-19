@@ -4,7 +4,7 @@
   </.link>
 </.header>
 
-<div id="card-list" phx-hook="Keydown" class="flex overflow-x-scroll gap-4 px-4">
+<div id="card-list" phx-hook="Keydown" class="flex m-auto gap-4 px-4">
   <%= for list <- @board.lists do %>
     <.live_component
       module={GrottoWeb.BoardLive.ListComponent}
