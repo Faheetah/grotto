@@ -10,6 +10,7 @@
       module={GrottoWeb.BoardLive.ListComponent}
       id={"list-#{list.id}"}
       list={list}
+      board={@board.id}
       live_action={@live_action}
     />
   <% end %>
@@ -40,6 +41,18 @@
     action={@live_action}
     list={@list}
     board={@board}
+    patch={~p"/boards/#{@board}"}
+  />
+</.modal>
+
+<.modal :if={@live_action == :show_card} id="card-modal" show on_cancel={JS.patch(~p"/boards/#{@board}")}>
+  <.live_component
+    module={GrottoWeb.BoardLive.CardComponent}
+    id={"card-form-#{@board.id}"}
+    title={@page_title}
+    action={@live_action}
+    board={@board}
+    card={@card}
     patch={~p"/boards/#{@board}"}
   />
 </.modal>

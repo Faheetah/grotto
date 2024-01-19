@@ -11,7 +11,13 @@ defmodule GrottoWeb.BoardLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id, "card_id" => card_id}, middle, socket) do
+    card = Cards.get_card!(card_id)
+    handle_params(%{"id" => id}, middle, assign(socket, :card, card))
+  end
+
+  @impl true
+  def handle_params(%{"id" => id} = params, _, socket) do
     {board_id, _} = Integer.parse(id)
 
     socket
