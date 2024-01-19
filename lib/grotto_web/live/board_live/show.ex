@@ -39,25 +39,12 @@ defmodule GrottoWeb.BoardLive.Show do
     |> Enum.reverse()
 
     board = Grotto.Boards.get_board!(socket.assigns.board.id)
-    # {:noreply, assign(socket, :board, Map.put(socket.assigns.board, :lists, lists))}
-    {:noreply, assign(socket, :board, board)}
-  end
-
-  def handle_event("change_rank", %{"list" => list_id, "sourceCard" => card_id, "targetCard" => rank}, socket) do
-    {list_id, _} = Integer.parse(list_id)
-    {card_id, _} = Integer.parse(card_id)
-    {rank, _} = Integer.parse(rank)
-
-    list = Lists.get_list!(list_id)
-    board = Boards.get_board!(list.board_id)
-    # @todo really horrible performance, fix later
     {:noreply, assign(socket, :board, board)}
   end
 
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => "last", "list" => list}, socket) do
     {source_card_id, _} = Integer.parse(source_card)
     {list_id, _} = Integer.parse(list)
-    source_card = Cards.get_card!(source_card_id)
 
     last_card =
       socket.assigns.board.lists
