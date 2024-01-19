@@ -11,24 +11,18 @@ defmodule GrottoWeb.BoardLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id, "card_id" => card_id}, middle, socket) do
-    card = Cards.get_card!(card_id)
-    handle_params(%{"id" => id}, middle, assign(socket, :card, card))
-  end
-
-  @impl true
   def handle_params(%{"id" => id} = params, _, socket) do
     {board_id, _} = Integer.parse(id)
 
     socket
     |> assign(:page_title, page_title(socket.assigns.live_action))
     |> assign(:board, Boards.get_board!(board_id))
-    |> apply_action(socket.assigns.live_action)
+    |> apply_action(socket.assigns.live_action, params)
     |> then(fn s -> {:noreply, s} end)
   end
 
-  defp apply_action(socket, :new_list), do: assign(socket, :list, %Grotto.Lists.List{})
-  defp apply_action(socket, _), do: socket
+  defp apply_action(socket, :show_card, %{"card_id" => card_id}), do: assign(socket, :card, Grotto.Cards.get_card!(card_id))
+  defp apply_action(socket, _, _), do: socket
 
   @impl true
   def handle_event("new_card", %{"list_id" => list_id} = params, socket) do
