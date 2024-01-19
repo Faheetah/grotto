@@ -64,7 +64,6 @@ defmodule GrottoWeb.BoardLive.Show do
       |> Map.get(:cards)
       |> List.last()
 
-    # @todo this fails when moving to an empty list
     case last_card do
       nil -> Lists.reorder_card(source_card_id, nil, list)
       target_card -> Lists.reorder_card(source_card_id, target_card.id, list)

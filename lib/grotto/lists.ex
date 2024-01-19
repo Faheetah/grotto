@@ -81,7 +81,7 @@ defmodule Grotto.Lists do
   end
 
   def reorder_card(id, id), do: nil
-
+  def reorder_card(id, id, _list), do: nil
   def reorder_card(source_card_id, nil, list_id) do
     source_card = get_card!(source_card_id)
     source_card_child = get_child_card(source_card.id)
