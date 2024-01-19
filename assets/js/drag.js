@@ -3,6 +3,12 @@ export default {
     this.el.ondrop = (event) => {
       event.preventDefault();
       const sourceCard = event.dataTransfer.getData("cardId");
+
+      if(!sourceCard) {
+        event.currentTarget.classList.remove("pt-12");
+        return
+      }
+
       const targetCard = event.target.getAttribute("phx-value-card");
       const list = event.target.getAttribute("phx-value-list");
 
@@ -16,7 +22,9 @@ export default {
     }
 
     this.el.ondragover = (event) => {
-      event.currentTarget.classList.add("pt-12");
+      if (document.archiveTarget && document.archiveTarget != "last") {
+        event.currentTarget.classList.add("pt-12");
+      }
     }
 
     this.el.ondragleave = (event) => {
