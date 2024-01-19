@@ -18,9 +18,11 @@ defmodule GrottoWeb.BoardLive.ListComponent do
           phx-keydown="deleteCard(event)"
           phx-hook="Drag"
           phx-value-card={card.id}
-          class="p-2 bg-white text-sm"
+          class="text-sm"
         >
+          <div class="p-2 bg-white">
           <%= card.name %>
+          </div>
         </div>
       <% end %>
 

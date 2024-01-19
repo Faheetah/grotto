@@ -20,7 +20,7 @@ export default {
     }
 
     this.el.ondragleave = (event) => {
-      event.currentTarget.classList.remove("pt-12");
+      event.toElement.classList.remove("pt-12");
     }
 
     this.el.ondragstart = (event) => {
