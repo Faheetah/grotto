@@ -7,7 +7,7 @@ defmodule Grotto.Boards do
   alias Grotto.Repo
 
   alias Grotto.Boards.Board
-  alias Grotto.Lists.Card
+  alias Grotto.Cards.Card
 
   @doc """
   Returns the list of boards.

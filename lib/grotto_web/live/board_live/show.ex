@@ -3,6 +3,7 @@ defmodule GrottoWeb.BoardLive.Show do
 
   alias Grotto.Boards
   alias Grotto.Lists
+  alias Grotto.Cards
 
   @impl true
   def mount(_params, _session, socket) do
@@ -25,7 +26,7 @@ defmodule GrottoWeb.BoardLive.Show do
 
   @impl true
   def handle_event("new_card", %{"list_id" => list_id} = params, socket) do
-    card = Grotto.Lists.create_card(Map.put(params, "name", params["value"]))
+    card = Grotto.Cards.create_card(Map.put(params, "name", params["value"]))
 
     socket.assigns.board.lists
     |> Enum.reduce([], fn l, acc ->
@@ -56,7 +57,7 @@ defmodule GrottoWeb.BoardLive.Show do
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => "last", "list" => list}, socket) do
     {source_card_id, _} = Integer.parse(source_card)
     {list_id, _} = Integer.parse(list)
-    source_card = Lists.get_card!(source_card_id)
+    source_card = Cards.get_card!(source_card_id)
 
     last_card =
       socket.assigns.board.lists
@@ -65,8 +66,8 @@ defmodule GrottoWeb.BoardLive.Show do
       |> List.last()
 
     case last_card do
-      nil -> Lists.reorder_card(source_card_id, nil, list)
-      target_card -> Lists.reorder_card(source_card_id, target_card.id, list)
+      nil -> Cards.reorder_card(source_card_id, nil, list)
+      target_card -> Cards.reorder_card(source_card_id, target_card.id, list)
     end
 
     board = Boards.get_board!(socket.assigns.board.id)
@@ -77,7 +78,7 @@ defmodule GrottoWeb.BoardLive.Show do
     {source_card_id, _} = Integer.parse(source_card)
     {target_card_id, _} = Integer.parse(target_card)
 
-    Lists.reorder_card(source_card_id, target_card_id)
+    Cards.reorder_card(source_card_id, target_card_id)
 
     board = Boards.get_board!(socket.assigns.board.id)
     {:noreply, assign(socket, :board, board)}
@@ -86,8 +87,8 @@ defmodule GrottoWeb.BoardLive.Show do
   def handle_event("archive_card", %{"card" => "last"}, socket), do: {:noreply, socket}
   def handle_event("archive_card", %{"card" => card}, socket) do
     # @todo this needs to reorder cards, then we can delete with no fkey
-    Lists.get_card!(card)
-    |> Lists.delete_card()
+    Cards.get_card!(card)
+    |> Cards.delete_card()
 
     board = Boards.get_board!(socket.assigns.board.id)
     {:noreply, assign(socket, :board, board)}

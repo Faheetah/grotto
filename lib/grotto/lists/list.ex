@@ -3,7 +3,7 @@ defmodule Grotto.Lists.List do
   import Ecto.Changeset
 
   alias Grotto.Boards.Board
-  alias Grotto.Lists.Card
+  alias Grotto.Cards.Card
 
   schema "lists" do
     field :name, :string

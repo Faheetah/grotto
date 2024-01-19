@@ -4,6 +4,7 @@ defmodule Grotto.Repo.Migrations.CreateCards do
   def change do
     create table(:cards) do
       add :name, :string
+      add :description, :string
       add :parent_card_id, references(:cards, on_delete: :nothing)
       add :list_id, references(:lists, on_delete: :delete_all)
 
