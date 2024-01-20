@@ -1,9 +1,6 @@
 defmodule GrottoWeb.BoardLive.ListComponent do
   use GrottoWeb, :live_component
 
-  alias Grotto.Lists
-  alias Grotto.Lists.List
-
   @impl true
   def render(%{list: list} = assigns) do
     ~H"""

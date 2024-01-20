@@ -6,8 +6,6 @@ defmodule Grotto.Lists do
   import Ecto.Query, warn: false
   alias Grotto.Repo
 
-  alias Ecto.Multi
-
   alias Grotto.Lists.List
 
   @doc """

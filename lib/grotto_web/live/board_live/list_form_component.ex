@@ -2,7 +2,6 @@ defmodule GrottoWeb.BoardLive.ListFormComponent do
   use GrottoWeb, :live_component
 
   alias Grotto.Lists
-  alias Grotto.Lists.List
 
   @impl true
   def render(assigns) do
