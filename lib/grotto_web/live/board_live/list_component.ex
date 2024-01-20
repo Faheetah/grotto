@@ -8,8 +8,15 @@ defmodule GrottoWeb.BoardLive.ListComponent do
   def render(%{list: list} = assigns) do
     ~H"""
     <div class="p-2 mb-auto bg-neutral-200 space-y-2 w-72 rounded shadow-sm shadow-neutral-400 flex-shrink-0">
-      <div class="p-2 font-bold text-sm">
-        <%= list.name %>
+      <div class="p-2 flex font-bold text-sm">
+        <div class="grow"><%= list.name %></div>
+
+        <.link
+          phx-click={JS.push("delete_list", value: %{list_id: list.id}) |> hide("##{list.id}")}
+          data-confirm={"Delete list #{list.name}?"}
+        >
+          <.icon name="hero-x-mark-solid" class="h-5 w-5" />
+        </.link>
       </div>
       <%= for card <- list.cards do %>
         <div

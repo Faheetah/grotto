@@ -2,6 +2,7 @@ defmodule GrottoWeb.BoardLive.Show do
   use GrottoWeb, :live_view
 
   alias Grotto.Boards
+  alias Grotto.Lists
   alias Grotto.Cards
 
   @impl true
@@ -100,6 +101,14 @@ defmodule GrottoWeb.BoardLive.Show do
     # @todo this needs to reorder cards, then we can delete with no fkey
     Cards.get_card!(card)
     |> Cards.delete_card()
+
+    board = Boards.get_board!(socket.assigns.board.id)
+    {:noreply, assign(socket, :board, board)}
+  end
+
+  def handle_event("delete_list", %{"list_id" => list_id}, socket) do
+    Lists.get_list!(list_id)
+    |> Lists.delete_list()
 
     board = Boards.get_board!(socket.assigns.board.id)
     {:noreply, assign(socket, :board, board)}
