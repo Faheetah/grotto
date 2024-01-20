@@ -2,7 +2,6 @@ defmodule GrottoWeb.BoardLive.Show do
   use GrottoWeb, :live_view
 
   alias Grotto.Boards
-  alias Grotto.Lists
   alias Grotto.Cards
 
   @impl true
@@ -21,7 +20,11 @@ defmodule GrottoWeb.BoardLive.Show do
     |> then(fn s -> {:noreply, s} end)
   end
 
-  defp apply_action(socket, :show_card, %{"card_id" => card_id}), do: assign(socket, :card, Grotto.Cards.get_card!(card_id))
+  defp apply_action(socket, :show_card, %{"card_id" => card_id}) do
+    card = Cards.get_card!(card_id)
+    socket
+    |> assign(:card, card)
+  end
   defp apply_action(socket, _, _), do: socket
 
   @impl true
@@ -49,11 +52,17 @@ defmodule GrottoWeb.BoardLive.Show do
 
   @impl true
   def handle_event("new_list", %{"board_id" => board_id, "value" => name}, socket) do
-    {:ok, list} = Grotto.Lists.create_list(%{"board_id" => board_id, "name" => name})
+    {:ok, _list} = Grotto.Lists.create_list(%{"board_id" => board_id, "name" => name})
 
     # this is ugly but we can't update/3 because of board
     board = Grotto.Boards.get_board!(socket.assigns.board.id)
     {:noreply, assign(socket, :board, board)}
+  end
+
+  def handle_event("update_card_description", %{"card_id" => card_id, "description" => description}, socket) do
+    {:ok, card} = Cards.update_card_description(Cards.get_card!(card_id), description)
+
+    {:noreply, assign(socket, :card, card)}
   end
 
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => "last", "list" => list}, socket) do
@@ -76,6 +85,7 @@ defmodule GrottoWeb.BoardLive.Show do
   end
 
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => target_card}, socket) do
+    IO.inspect {source_card, target_card}
     {source_card_id, _} = Integer.parse(source_card)
     {target_card_id, _} = Integer.parse(target_card)
 
