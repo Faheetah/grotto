@@ -118,7 +118,7 @@ defmodule GrottoWeb.BoardLive.Show do
   end
 
   @impl true
-  def handle_event("rename_list", %{"value" => ""}, socket), do: {:noeply, socket}
+  def handle_event("rename_list", %{"value" => ""}, socket), do: {:noreply, socket}
   def handle_event("rename_list", %{"list_id" => id, "value" => name}, socket) do
     list = Lists.get_list!(id)
     {:ok, _} = Lists.update_list(list, %{"name" => name})
