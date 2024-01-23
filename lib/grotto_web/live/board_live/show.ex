@@ -28,11 +28,8 @@ defmodule GrottoWeb.BoardLive.Show do
   end
   defp apply_action(socket, _, _), do: socket
 
-  # this is ugly but phx-submit is not passing the correct form
-  # and it causes a double-submission, may need custom JS
-  def handle_event("pass", _params, socket) do
-    {:noreply, socket}
-  end
+  @impl true
+  def handle_event("new_card", %{"value" => ""}, socket), do: {:noreply, socket}
 
   @impl true
   def handle_event("new_card", %{"list_id" => list_id} = params, socket) do
@@ -117,6 +114,17 @@ defmodule GrottoWeb.BoardLive.Show do
     |> Lists.delete_list()
 
     board = Boards.get_board!(socket.assigns.board.id)
+    {:noreply, assign(socket, :board, board)}
+  end
+
+  @impl true
+  def handle_event("update_board", %{"value" => ""}, socket), do: {:noreply, socket}
+
+  @impl true
+  def handle_event("update_board", %{"board_id" => id, "value" => name}, socket) do
+    board = Boards.get_board!(id)
+    {:ok, board} = Boards.update_board(board, %{"name" => name})
+
     {:noreply, assign(socket, :board, board)}
   end
 

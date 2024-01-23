@@ -241,6 +241,28 @@ defmodule GrottoWeb.CoreComponents do
     """
   end
 
+  attr :action, :string, required: true, doc: "new/update/etc"
+  attr :id, :string, default: "1", doc: "a unique identifier for the form, used if multiple forms are present"
+  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the input"
+
+  slot :inner_block
+
+  def inline_input(assigns) do
+    ~H"""
+    <div>
+      <div id={"#{@action}-render-#{@id}"} phx-click={JS.hide() |> JS.show(to: "##{@action}-input-#{@id}") |> JS.focus(to: "##{@action}-input-field-#{@id}") |> JS.push_focus()}>
+        <%= render_slot(@inner_block) %>
+      </div>
+
+      <div id={"#{@action}-input-#{@id}"} class={"hidden"}>
+        <form phx-submit={JS.pop_focus() |> JS.hide(to: "##{@action}-input-#{@id}") |> JS.show(to: "##{@action}-render-#{@id}")}>
+          <input phx-blur={JS.push(@action) |> JS.hide(to: "##{@action}-input-#{@id}") |> JS.show(to: "##{@action}-render-#{@id}")} type="text" id={"#{@action}-input-field-#{@id}"} {@rest} />
+        </form>
+      </div>
+    </div>
+    """
+  end
+
   @doc """
   Renders an input with label and error messages.
 

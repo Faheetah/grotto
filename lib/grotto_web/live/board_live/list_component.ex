@@ -33,17 +33,11 @@ defmodule GrottoWeb.BoardLive.ListComponent do
       <% end %>
 
       <div>
-        <.link onclick={"document.getElementById('card-input-#{list.id}').style.display = 'block'; document.getElementById('card-input-field-#{list.id}').focus(); this.hidden = true;"}>
+        <.inline_input class="w-full h-11" action="new_card" id={list.id} phx-value-list_id={list.id}>
           <div phx-hook="Drag" id={"new-button-#{list.id}"} phx-value-card="last" phx-value-list={list.id} class="p-2 text-sm font-medium w-full hover:bg-neutral-300">
             <span class="text-xl">+</span> Add a card
           </div>
-        </.link>
-
-        <div id={"card-input-#{list.id}"} class="hidden">
-          <.form for={%{}} :let={f} phx-submit="pass" phx-value-list_id={list.id}>
-            <.input field={f[:name]} phx-blur="new_card" phx-value-list_id={list.id} type="text" id={"card-input-field-#{list.id}"} />
-          </.form>
-        </div>
+        </.inline_input>
       </div>
     </div>
     """
