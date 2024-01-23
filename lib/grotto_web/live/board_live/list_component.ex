@@ -40,7 +40,7 @@ defmodule GrottoWeb.BoardLive.ListComponent do
         </.link>
 
         <div id={"card-input-#{list.id}"} class="hidden">
-          <.form for={%{}} :let={f} phx-submit="new_card" phx-value-list_id={list.id}>
+          <.form for={%{}} :let={f} phx-submit="pass" phx-value-list_id={list.id}>
             <.input field={f[:name]} phx-blur="new_card" phx-value-list_id={list.id} type="text" id={"card-input-field-#{list.id}"} />
           </.form>
         </div>
