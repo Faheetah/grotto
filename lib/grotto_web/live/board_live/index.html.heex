@@ -1,25 +1,24 @@
-<div  class="p-8">
-<.table
-  id="boards"
-  rows={@streams.boards}
-  row_click={fn {_id, board} -> JS.navigate(~p"/boards/#{board}") end}
->
-  <:col :let={{_id, board}} label="Name"><%= board.name %></:col>
-  <:action :let={{_id, board}}>
-    <div class="sr-only">
-      <.link navigate={~p"/boards/#{board}"}>Show</.link>
+<div id="boards" class="m-8 grid gap-4 grid-cols-4 text-lg w-1/2 font-medium text-neutral-100">
+  <%= for {id, board} <- @streams.boards do %>
+    <div id={id} class="bg-neutral-800 px-4 py-2 h-36 relative">
+      <.link patch={~p"/boards/#{board}"}>
+        <%= board.name %>
+      </.link>
+
+      <div class="font-thin text-sm absolute bottom-2 right-2">
+        <.link patch={~p"/boards/#{board}/edit"}>
+          (edit)
+        </.link>
+
+        <.link
+          phx-click={JS.push("delete", value: %{id: board.id}) |> hide("##{id}")}
+          data-confirm="Are you sure?"
+        >
+          (delete)
+        </.link>
+      </div>
     </div>
-    <.link patch={~p"/boards/#{board}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={{id, board}}>
-    <.link
-      phx-click={JS.push("delete", value: %{id: board.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
-    >
-      Delete
-    </.link>
-  </:action>
-</.table>
+  <% end %>
 </div>
 
 <.modal :if={@live_action in [:new, :edit]} id="board-modal" show on_cancel={JS.patch(~p"/boards")}>

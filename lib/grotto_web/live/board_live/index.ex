@@ -43,6 +43,8 @@ defmodule GrottoWeb.BoardLive.Index do
     board = Boards.get_board!(id)
     {:ok, _} = Boards.delete_board(board)
 
+    # @todo need to implement streams into the main template
+    # this was based off of <.table> originally that supports streams
     {:noreply, stream_delete(socket, :boards, board)}
   end
 end
