@@ -6,7 +6,9 @@ defmodule GrottoWeb.BoardLive.CardComponent do
     ~H"""
     <div class="space-y-4 min-h-48 overflow-y-visible h-full m-auto">
       <div class="text-2xl pl-2">
-        <%= card.name %>
+        <.inline_input class="h-8 w-96 -my-2" action="rename_card" id={card.id} phx-value-card_id={card.id}>
+          <span><%= card.name %></span>
+        </.inline_input>
       </div>
 
       <div>

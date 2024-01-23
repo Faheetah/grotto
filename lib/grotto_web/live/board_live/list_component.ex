@@ -6,7 +6,12 @@ defmodule GrottoWeb.BoardLive.ListComponent do
     ~H"""
     <div class="p-2 mb-auto bg-neutral-200 space-y-2 w-72 rounded shadow-sm shadow-neutral-400 flex-shrink-0">
       <div class="p-2 flex font-bold text-sm">
-        <div class="grow"><%= list.name %></div>
+        <div class="grow">
+          <.inline_input class="h-8 w-96 -my-2" action="rename_list" id={list.id} phx-value-list_id={list.id}>
+            <span><%= list.name %></span>
+          </.inline_input>
+        </div>
+
 
         <.link
           phx-click={JS.push("delete_list", value: %{list_id: list.id}) |> hide("##{list.id}")}

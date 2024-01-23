@@ -98,11 +98,30 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :board, board)}
   end
 
+  @impl true
+  def handle_event("rename_card", %{"value" => ""}, socket), do: {:noeply, socket}
+  def handle_event("rename_card", %{"card_id" => id, "value" => name}, socket) do
+    card = Cards.get_card!(id)
+    {:ok, card} = Cards.update_card_name(card,  name)
+
+    {:noreply, assign(socket, :card, card)}
+  end
+
   def handle_event("archive_card", %{"card" => "last"}, socket), do: {:noreply, socket}
   def handle_event("archive_card", %{"card" => card}, socket) do
     # @todo this needs to reorder cards, then we can delete with no fkey
     Cards.get_card!(card)
     |> Cards.delete_card()
+
+    board = Boards.get_board!(socket.assigns.board.id)
+    {:noreply, assign(socket, :board, board)}
+  end
+
+  @impl true
+  def handle_event("rename_list", %{"value" => ""}, socket), do: {:noeply, socket}
+  def handle_event("rename_list", %{"list_id" => id, "value" => name}, socket) do
+    list = Lists.get_list!(id)
+    {:ok, _} = Lists.update_list(list, %{"name" => name})
 
     board = Boards.get_board!(socket.assigns.board.id)
     {:noreply, assign(socket, :board, board)}

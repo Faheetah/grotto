@@ -25,6 +25,11 @@ defmodule Grotto.Cards do
     |> Repo.insert()
   end
 
+  def update_card_name(%Card{} = card, name) do
+    Card.changeset(card, %{"name" => name})
+    |> Repo.update()
+  end
+
   def update_card_description(%Card{} = card, description) do
     Card.changeset(card, %{"description" => description})
     |> Repo.update()
