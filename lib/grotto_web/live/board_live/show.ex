@@ -89,7 +89,6 @@ defmodule GrottoWeb.BoardLive.Show do
   end
 
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => target_card}, socket) do
-    IO.inspect {source_card, target_card}
     {source_card_id, _} = Integer.parse(source_card)
     {target_card_id, _} = Integer.parse(target_card)
 
