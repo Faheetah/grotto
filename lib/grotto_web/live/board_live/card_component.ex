@@ -6,7 +6,7 @@ defmodule GrottoWeb.BoardLive.CardComponent do
     ~H"""
     <div class="space-y-4 min-h-48 overflow-y-visible h-full m-auto">
       <div class="text-2xl pl-2">
-        <.inline_input class="h-8 w-96 -my-2" action="rename_card" id={card.id} phx-value-card_id={card.id}>
+        <.inline_input class="h-8 w-96 -my-2" value={card.name} action="rename_card" id={card.id} phx-value-card_id={card.id}>
           <span><%= card.name %></span>
         </.inline_input>
       </div>
@@ -15,7 +15,7 @@ defmodule GrottoWeb.BoardLive.CardComponent do
         <.link id="card-view" onclick={"document.getElementById('card-input').style.display = 'block'; document.getElementById('card-input-field').focus(); this.style.display = 'none';"}>
           <div id="new-button-card" class="h-12 font-medium p-2 w-72 bg-neutral-100 w-full min-h-80 rounded">
               <%= if card.description do %>
-                <%= for line <- String.split(card.description) do %>
+                <%= for line <- String.split(card.description, "\n") do %>
                   <div><%= line %></div>
                 <% end %>
               <% else %>

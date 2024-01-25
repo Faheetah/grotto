@@ -1,5 +1,5 @@
 <.header class="p-4 mb-4 bg-neutral-100">
-  <.inline_input class="h-8 w-96 -my-2" action="update_board" phx-value-board_id={@board.id}>
+  <.inline_input class="h-8 w-96 -my-2" value={@board.name || ""} action="update_board" phx-value-board_id={@board.id}>
     <span>Board <%= @board.name %></span>
   </.inline_input>
 </.header>
