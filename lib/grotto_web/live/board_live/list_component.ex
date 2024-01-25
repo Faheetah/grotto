@@ -31,7 +31,7 @@ defmodule GrottoWeb.BoardLive.ListComponent do
           class="text-sm"
         >
           <.link patch={~p"/boards/#{@board}/cards/#{card.id}"} phx-value-card={card.id}>
-          <div class="p-2 bg-white rounded shadow" phx-value-card={card.id}>
+          <div class="p-2 hover:ring-2 ring-neutral-500 bg-white rounded shadow" phx-value-card={card.id}>
             <%= card.name %>
           </div>
           </.link>
