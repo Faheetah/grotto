@@ -2,7 +2,7 @@ defmodule GrottoWeb.BoardLive.CardComponent do
   use GrottoWeb, :live_component
 
   @impl true
-  def render(%{card: card} = assigns) do
+  def render(assigns) do
     ~H"""
     <div class="space-y-4 min-h-48 overflow-y-visible h-full m-auto">
       <div class="text-2xl pl-2">

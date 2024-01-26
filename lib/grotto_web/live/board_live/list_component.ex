@@ -2,7 +2,7 @@ defmodule GrottoWeb.BoardLive.ListComponent do
   use GrottoWeb, :live_component
 
   @impl true
-  def render(%{list: list} = assigns) do
+  def render(assigns) do
     ~H"""
     <div class="p-2 mb-auto bg-neutral-200 space-y-2 w-72 rounded shadow-sm shadow-neutral-400 flex-shrink-0">
       <.inline_input class="h-8 w-full my-1" value={@list.name || ""} action="rename_list" id={@list.id} phx-value-list_id={@list.id}>

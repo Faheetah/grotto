@@ -243,7 +243,7 @@ defmodule GrottoWeb.CoreComponents do
 
   attr :action, :string, required: true, doc: "new/update/etc"
   attr :id, :string, default: "1", doc: "a unique identifier for the form, used if multiple forms are present"
-  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the input"
+  attr :rest, :global, include: ~w(value)
 
   slot :inner_block
 
