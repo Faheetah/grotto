@@ -1,7 +1,11 @@
 <.header class="p-4 mb-4 bg-neutral-100">
-  <.inline_input class="h-8 w-96 -my-2" value={@board.name || ""} action="update_board" phx-value-board_id={@board.id}>
-    <span>Board <%= @board.name %></span>
-  </.inline_input>
+  <div class="flex gap-4">
+    <.inline_input class="h-8 w-96 -my-2" value={@board.name || ""} action="update_board" phx-value-board_id={@board.id}>
+      <span class="text-2xl">Board <%= @board.name %></span>
+    </.inline_input>
+
+    <.link class="font-thin text-neutral-400 hover:text-neutral-900" navigate={"/boards/#{@board.id}/export"}>(export)</.link>
+  </div>
 </.header>
 
 <div id="card-list" phx-hook="Keydown" class="flex m-auto gap-4 px-4">

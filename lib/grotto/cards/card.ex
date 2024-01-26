@@ -4,6 +4,8 @@ defmodule Grotto.Cards.Card do
 
   alias Grotto.Lists.List
 
+  @derive [Poison.Encoder]
+
   schema "cards" do
     field :name, :string
     field :description, :string

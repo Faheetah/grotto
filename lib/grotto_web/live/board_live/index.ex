@@ -14,6 +14,19 @@ defmodule GrottoWeb.BoardLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
+  defp apply_action(socket, :export, %{"id" => id}) do
+    export_data = Grotto.Importer.export(id)
+
+    socket
+    |> assign(:page_title, "Export Board")
+    |> assign(:board, Boards.get_board!(id))
+    |> assign(:export, export_data)
+  end
+
+  defp apply_action(socket, :import, _params) do
+    socket
+    |> assign(:page_title, "Import Board")
+  end
   defp apply_action(socket, :edit, %{"id" => id}) do
     {board_id, _} = Integer.parse(id)
     socket
@@ -46,5 +59,17 @@ defmodule GrottoWeb.BoardLive.Index do
     # @todo need to implement streams into the main template
     # this was based off of <.table> originally that supports streams
     {:noreply, stream_delete(socket, :boards, board)}
+  end
+
+  @impl true
+  def handle_event("import-board", %{"data" => data}, socket) do
+    board = Grotto.Importer.import(data)
+
+    {
+      :noreply,
+      socket
+      |> put_flash(:info, "Board #{board.name} imported successfully")
+      |> push_redirect(to: "/boards/#{board.id}")
+    }
   end
 end

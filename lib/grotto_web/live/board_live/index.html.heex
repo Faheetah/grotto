@@ -31,3 +31,20 @@
     patch={~p"/boards"}
   />
 </.modal>
+
+<.modal :if={@live_action == :export} id="board-modal" show on_cancel={JS.patch(~p"/boards")}>
+  <div class="font-serif text-xs bg-neutral-100"><%= @export %></div>
+</.modal>
+
+<.modal :if={@live_action == :import} id="board-modal" show on_cancel={JS.patch(~p"/boards")}>
+  <.simple_form
+    for={%{}}
+    id="import"
+    phx-submit="import-board"
+  >
+    <.input class="m-auto w-full h-96" type="textarea" label="Data" name="data" value="" />
+    <:actions>
+      <.button phx-disable-with="Importing...">Import Board</.button>
+    </:actions>
+  </.simple_form>
+</.modal>

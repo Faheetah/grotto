@@ -4,6 +4,8 @@ defmodule Grotto.Boards.Board do
 
   alias Grotto.Lists.List
 
+  @derive [Poison.Encoder]
+
   schema "boards" do
     field :name, :string
     has_many :lists, List

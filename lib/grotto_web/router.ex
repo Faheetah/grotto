@@ -20,9 +20,11 @@ defmodule GrottoWeb.Router do
     get "/", PageController, :home
     live "/boards", BoardLive.Index, :index
     live "/boards/new", BoardLive.Index, :new
+    live "/boards/import", BoardLive.Index, :import
     live "/boards/:id", BoardLive.Show, :show
     live "/boards/:id/edit", BoardLive.Show, :edit
     live "/boards/:id/delete", BoardLive.Show, :delete
+    live "/boards/:id/export", BoardLive.Index, :export
     live "/boards/:id/lists/new", BoardLive.Show, :new_list
     live "/boards/:id/lists/:list_id/cards/new", BoardLive.Show, :new_card
     live "/boards/:id/cards/:card_id", BoardLive.Show, :show_card
