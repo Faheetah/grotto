@@ -33,7 +33,9 @@
 </.modal>
 
 <.modal :if={@live_action == :export} id="board-modal" show on_cancel={JS.patch(~p"/boards")}>
-  <div class="font-serif text-xs bg-neutral-100"><%= @export %></div>
+  <textarea onClick="this.select();" class="font-serif text-xs bg-neutral-100 h-auto w-auto" cols="100" rows="20">
+    <%= @export %>
+   </textarea>
 </.modal>
 
 <.modal :if={@live_action == :import} id="board-modal" show on_cancel={JS.patch(~p"/boards")}>
