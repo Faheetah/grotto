@@ -1,10 +1,24 @@
 <.header class="p-4 mb-4 bg-neutral-100">
   <div class="flex gap-4">
+    <div class="grow">
     <.inline_input class="h-8 w-96 -my-2" value={@board.name || ""} action="update_board" phx-value-board_id={@board.id}>
       <span class="text-2xl">Board <%= @board.name %></span>
     </.inline_input>
+    </div>
 
-    <.link class="font-thin text-neutral-400 hover:text-neutral-900" navigate={"/boards/#{@board.id}/export"}>(export)</.link>
+    <div>
+      <.link navigate={"/boards/#{@board.id}/export"}>
+        <.button class="text-neutral-800 bg-neutral-300 hover:bg-neutral-400">Export Board</.button>
+      </.link>
+    </div>
+    <div>
+      <.link
+        phx-click={JS.push("delete", value: %{id: @board.id})}
+        data-confirm={"Really delete #{@board.name}?"}
+      >
+        <.button class="text-neutral-800 bg-neutral-300 hover:bg-neutral-400">Delete Board</.button>
+      </.link>
+    </div>
   </div>
 </.header>
 

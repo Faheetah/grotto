@@ -146,6 +146,14 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :board, board)}
   end
 
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    board = Boards.get_board!(id)
+    {:ok, _} = Boards.delete_board(board)
+
+    {:noreply, push_redirect(socket, to: "/boards")}
+  end
+
   defp page_title(:edit), do: "Edit Board"
   defp page_title(:new_list), do: "New List"
   defp page_title(_), do: "Show Board"

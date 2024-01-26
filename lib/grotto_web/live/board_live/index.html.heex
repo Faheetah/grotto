@@ -1,23 +1,10 @@
 <div id="boards" class="m-8 grid gap-4 grid-cols-4 text-lg w-1/2 font-medium text-neutral-100">
   <%= for {id, board} <- @streams.boards do %>
-    <div id={id} class="bg-neutral-800 px-4 py-2 h-36 relative">
-      <.link patch={~p"/boards/#{board}"}>
+    <.link patch={~p"/boards/#{board}"}>
+      <div id={id} class="hover:ring-2 ring-neutral-400 hover:bg-neutral-700 bg-neutral-800 px-4 py-2 h-36 relative">
         <%= board.name %>
-      </.link>
-
-      <div class="font-thin text-sm absolute bottom-2 right-2">
-        <.link patch={~p"/boards/#{board}/edit"}>
-          (edit)
-        </.link>
-
-        <.link
-          phx-click={JS.push("delete", value: %{id: board.id}) |> hide("##{id}")}
-          data-confirm="Are you sure?"
-        >
-          (delete)
-        </.link>
       </div>
-    </div>
+    </.link>
   <% end %>
 </div>
 

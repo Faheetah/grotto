@@ -6,12 +6,17 @@ defmodule GrottoWeb.BoardLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :boards, Boards.list_boards())}
+    {:ok, socket}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    {
+      :noreply,
+      socket
+      |> apply_action(socket.assigns.live_action, params)
+      |> stream(:boards, Boards.list_boards())
+    }
   end
 
   defp apply_action(socket, :export, %{"id" => id}) do
@@ -49,16 +54,6 @@ defmodule GrottoWeb.BoardLive.Index do
   @impl true
   def handle_info({GrottoWeb.BoardLive.FormComponent, {:saved, board}}, socket) do
     {:noreply, stream_insert(socket, :boards, board)}
-  end
-
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    board = Boards.get_board!(id)
-    {:ok, _} = Boards.delete_board(board)
-
-    # @todo need to implement streams into the main template
-    # this was based off of <.table> originally that supports streams
-    {:noreply, stream_delete(socket, :boards, board)}
   end
 
   @impl true
