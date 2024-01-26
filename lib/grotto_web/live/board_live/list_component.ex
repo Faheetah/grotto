@@ -32,7 +32,14 @@ defmodule GrottoWeb.BoardLive.ListComponent do
         >
           <.link patch={~p"/boards/#{@board}/cards/#{card.id}"} phx-value-card={card.id}>
           <div class="p-2 hover:ring-2 ring-neutral-500 bg-white rounded shadow" phx-value-card={card.id}>
+            <div>
             <%= card.name %>
+            </div>
+            <div>
+            <%= if card.description do %>
+              <.icon name="hero-bars-3-bottom-left" class="w-4 h-4" />
+            <% end %>
+            </div>
           </div>
           </.link>
         </div>
