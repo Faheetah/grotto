@@ -8,7 +8,7 @@
 
     <div>
       <.link navigate={"/boards/#{@board.id}/export"}>
-        <.button class="text-neutral-800 bg-neutral-300 hover:bg-neutral-400">Export Board</.button>
+        <.button class="text-neutral-700 bg-neutral-300 hover:bg-neutral-400">Export Board</.button>
       </.link>
     </div>
     <div>
@@ -16,7 +16,7 @@
         phx-click={JS.push("delete", value: %{id: @board.id})}
         data-confirm={"Really delete #{@board.name}?"}
       >
-        <.button class="text-neutral-800 bg-neutral-300 hover:bg-neutral-400">Delete Board</.button>
+        <.button class="text-neutral-700 bg-neutral-300 hover:bg-neutral-400">Delete Board</.button>
       </.link>
     </div>
   </div>
