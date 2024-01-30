@@ -661,10 +661,10 @@ defmodule GrottoWeb.CoreComponents do
 
   def color_card(color) do
     case color do
-      "green" -> "bg-green-50"
-      "yellow" -> "bg-yellow-50"
-      "orange" -> "bg-orange-50"
-      "red" -> "bg-red-50"
+      "green" -> "bg-green-100"
+      "yellow" -> "bg-yellow-100"
+      "orange" -> "bg-orange-100"
+      "red" -> "bg-red-100"
       _ -> "bg-white"
     end
   end
