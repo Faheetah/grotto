@@ -6,7 +6,9 @@ defmodule Grotto.Lists do
   import Ecto.Query, warn: false
   alias Grotto.Repo
 
+  alias Grotto.Boards
   alias Grotto.Lists.List
+  alias Grotto.Cards.Card
 
   @doc """
   Returns the list of lists.
@@ -104,5 +106,24 @@ defmodule Grotto.Lists do
   """
   def change_list(%List{} = list, attrs \\ %{}) do
     List.changeset(list, attrs)
+  end
+
+  @doc """
+  Iterates through a list, asserting all cards are ordered, and ordering if not.
+  Fixes issues when parent_card_id is improperly set.
+
+  WARNING: this may incorrectly order cards!
+  """
+  def fix_list(%List{} = list) do
+    list
+    |> Boards.get_cards
+    |> Map.get(:cards)
+    |> Enum.reduce(nil, fn card, parent_card_id ->
+        card
+        |> Card.changeset(IO.inspect(%{"parent_card_id" => parent_card_id}))
+        |> Repo.update!()
+
+        card.id
+      end)
   end
 end

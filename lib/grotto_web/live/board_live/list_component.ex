@@ -11,6 +11,9 @@ defmodule GrottoWeb.BoardLive.ListComponent do
               <span><%= @list.name %></span>
           </div>
 
+          <.link class="mr-2 text-neutral-200 hover:text-neutral-600" phx-click={JS.push("fix_list", value: %{list_id: @list.id})}>
+            fix
+          </.link>
 
           <.link
             phx-click={JS.push("delete_list", value: %{list_id: @list.id}) |> hide("##{@list.id}")}
@@ -34,7 +37,10 @@ defmodule GrottoWeb.BoardLive.ListComponent do
           <div class="p-2 hover:ring-2 ring-neutral-500 bg-white rounded shadow">
             <div>
               <div phx-value-card={card.id}>
-                <%= card.name %>
+                <span class="flex">
+                  <span class="grow"><%= card.name %></span>
+                  <span class="text-neutral-100 font-thin hover:text-neutral-500"><%= card.id %>:<%= card.parent_card_id %></span>
+                </span>
               </div>
 
               <div phx-value-card={card.id}>

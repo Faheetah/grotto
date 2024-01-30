@@ -98,6 +98,15 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :board, board)}
   end
 
+  def handle_event("fix_list", %{"list_id" => list_id}, socket) do
+    list_id
+    |> Lists.get_list!
+    |> Lists.fix_list
+
+    board = Boards.get_board!(socket.assigns.board.id)
+    {:noreply, assign(socket, :board, board)}
+  end
+
   @impl true
   def handle_event("rename_card", %{"value" => ""}, socket), do: {:noeply, socket}
   def handle_event("rename_card", %{"card_id" => id, "value" => name}, socket) do
