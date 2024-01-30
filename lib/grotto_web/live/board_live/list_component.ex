@@ -28,18 +28,21 @@ defmodule GrottoWeb.BoardLive.ListComponent do
         <div
           id={"card-#{@list.id}-#{card.id}"}
           draggable="true"
-          phx-keydown="deleteCard(event)"
           phx-hook="Drag"
           phx-value-card={card.id}
           class="text-sm"
         >
           <.link patch={~p"/boards/#{@board}/cards/#{card.id}"} phx-value-card={card.id}>
-          <div class="p-2 hover:ring-2 ring-neutral-500 bg-white rounded shadow">
-            <div>
+          <div class={"hover:ring-2 ring-neutral-500 bg-white rounded shadow"} phx-value-card={card.id}>
+            <%!-- I don't know why I need so many of these phx-value-card={card.id} --%>
+            <%= if card.color do %>
+            <div class={"rounded-t #{color_card(card.color)} py-2"} phx-value-card={card.id}></div>
+            <% end %>
+            <div class="p-2" phx-value-card={card.id}>
               <div phx-value-card={card.id}>
-                <span class="flex">
-                  <span class="grow"><%= card.name %></span>
-                  <span class="text-neutral-100 font-thin hover:text-neutral-500"><%= card.id %>:<%= card.parent_card_id %></span>
+                <span class="flex" phx-value-card={card.id}>
+                  <span class="grow" phx-value-card={card.id}><%= card.name %></span>
+                  <span class="text-neutral-100 font-thin hover:text-neutral-500" phx-value-card={card.id}><%= card.id %>:<%= card.parent_card_id %></span>
                 </span>
               </div>
 

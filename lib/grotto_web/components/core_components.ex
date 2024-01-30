@@ -659,6 +659,16 @@ defmodule GrottoWeb.CoreComponents do
     |> JS.pop_focus()
   end
 
+  def color_card(color) do
+    case color do
+      "green" -> "bg-green-50"
+      "yellow" -> "bg-yellow-50"
+      "orange" -> "bg-orange-50"
+      "red" -> "bg-red-50"
+      _ -> "bg-white"
+    end
+  end
+
   @doc """
   Translates an error message using gettext.
   """

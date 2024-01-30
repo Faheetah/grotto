@@ -42,6 +42,18 @@ defmodule Grotto.Cards do
     Repo.get!(Card, card_id)
   end
 
+  def set_color(%Card{color: new_color} = card, new_color) do
+    card
+    |> Card.changeset(%{"color" => nil})
+    |> Repo.update!
+  end
+
+  def set_color(card, color) do
+    card
+    |> Card.changeset(%{"color" => color})
+    |> Repo.update!
+  end
+
   def reorder_card(id, id, _list), do: nil
   def reorder_card(source_card_id, nil, list_id) do
     source_card = get_card!(source_card_id)
