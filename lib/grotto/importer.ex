@@ -40,7 +40,7 @@ defmodule Grotto.Importer do
   # this will not add the cards ordered, but they may be incidentally ordered from export
   defp insert_cards(list, cards) do
     Enum.reduce(cards, nil, fn card, parent ->
-      Repo.insert!(Card.changeset(%Card{}, %{"name" => card.name, "description" => card.description, "list_id" => list.id, "parent_card_id" => parent}))
+      Repo.insert!(Card.changeset(%Card{}, %{"name" => card.name, "description" => card.description, "color" => card.color, "list_id" => list.id, "parent_card_id" => parent}))
       |> Map.get(:id)
     end)
   end
