@@ -24,5 +24,13 @@ export default {
         })
       }
     })
+
+    this.el.onmouseover = (event) => {
+      document.archiveTarget = event.target.getAttribute("phx-value-card")
+    }
+
+    this.el.onmouseout = (event) => {
+      document.archiveTarget = undefined
+    }
   }
 }
