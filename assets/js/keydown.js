@@ -1,6 +1,11 @@
 export default {
   mounted() {
     window.addEventListener("keydown", (event) => {
+      // Ignore last slot, it will trigger events
+      if(document.archiveTarget == "last") {
+        return
+      }
+
       if(document.archiveTarget && event.key == "c") {
         this.pushEvent("archive_card", {
           card: document.archiveTarget
