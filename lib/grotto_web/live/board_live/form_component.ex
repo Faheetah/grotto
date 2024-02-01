@@ -21,7 +21,7 @@ defmodule GrottoWeb.BoardLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Board</.button>
+          <.button class="bg-neutral-700 hover:bg-neutral-600" phx-disable-with="Saving...">Save Board</.button>
         </:actions>
       </.simple_form>
     </div>
