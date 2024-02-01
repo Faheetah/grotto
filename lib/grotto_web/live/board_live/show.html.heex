@@ -7,6 +7,11 @@
     </div>
 
     <div>
+      <.link navigate={"/boards/#{@board.id}/archived"}>
+        <.button class="text-neutral-700 bg-neutral-300 hover:bg-neutral-400">Archived Cards</.button>
+      </.link>
+    </div>
+    <div>
       <.link navigate={"/boards/#{@board.id}/export"}>
         <.button class="text-neutral-700 bg-neutral-300 hover:bg-neutral-400">Export Board</.button>
       </.link>

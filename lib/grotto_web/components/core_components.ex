@@ -231,7 +231,7 @@ defmodule GrottoWeb.CoreComponents do
       type={@type}
       class={[
         "phx-submit-loading:opacity-75 rounded-lg py-2 px-3",
-        "text-sm font-semibold leading-6 text-white active:text-white/80",
+        "text-sm font-bold leading-6",
         @class
       ]}
       {@rest}

@@ -12,17 +12,23 @@ defmodule GrottoWeb.BoardLive.CardComponent do
       </div>
 
       <div>
-        <.link id="card-view" onclick={"document.getElementById('card-input').style.display = 'block'; document.getElementById('card-input-field').focus(); this.style.display = 'none';"}>
-          <div id="new-button-card" class="h-12 font-medium p-2 w-72 bg-neutral-100 w-full min-h-80 rounded">
-              <%= if @card.description do %>
-                <%= for line <- String.split(@card.description, "\n") do %>
-                  <div><%= line %></div>
+        <div id="card-view">
+          <.link id="card-viw" onclick={"document.getElementById('card-input').style.display = 'block'; document.getElementById('card-input-field').focus(); document.getElementById('card-view').style.display = 'none';"}>
+            <div id="new-button-card" class="h-12 font-medium p-2 w-72 bg-neutral-100 w-full min-h-80 rounded">
+                <%= if @card.description do %>
+                  <%= for line <- String.split(@card.description, "\n") do %>
+                    <div><%= line %></div>
+                  <% end %>
+                <% else %>
+                  <span class="text-neutral-500 font-thin italic">No description</span>
                 <% end %>
-              <% else %>
-                <span class="text-neutral-500 font-thin italic">No description</span>
-              <% end %>
-          </div>
-        </.link>
+            </div>
+          </.link>
+
+          <.link phx-click={JS.push("delete_card", value: %{id: @card.id})} data-confirm={"Really delete #{@card.name}?"}>
+            <.button class="bg-red-200 text-neutral-700 mt-2 p-2" >Delete card</.button>
+          </.link>
+        </div>
 
         <div id="card-input" class="hidden h-12 font-medium w-full min-h-48 m-auto">
           <.form for={%{}} :let={f} phx-submit="update_card_description" phx-value-card_id={@card.id} class="h-full m-auto">

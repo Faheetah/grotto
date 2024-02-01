@@ -12,10 +12,25 @@ defmodule Grotto.Cards do
   alias Grotto.Cards.Card
 
   @doc """
+  Lists archived cards for a board.
+  """
+  def list_archived_cards!(board_id) do
+    Repo.all(
+      from l in Lists.List,
+      where: l.board_id == ^board_id,
+      join: c in Card,
+      on: c.list_id == l.id,
+      where: not is_nil(c.deleted_at),
+      select: %{name: c.name, description: c.description, id: c.id, color: c.color, deleted_at: c.deleted_at, list: %{name: l.name}}
+    )
+  end
+
+  @doc """
   Creates a card.
   """
   def create_card(attrs \\ %{}) do
     {list_id, _} = Integer.parse(attrs["list_id"])
+
     list = Lists.get_list!(list_id)
     cards = Enum.reverse(list.cards)
     parent_card_id = get_parent_card(cards)
@@ -159,6 +174,32 @@ defmodule Grotto.Cards do
 
   defp get_child_card(card_id) do
     Repo.one(from c in Card, where: c.parent_card_id == ^card_id)
+  end
+
+
+  def archive_card(%Card{} = card) do
+    child = get_child_card(card.id)
+    card_changeset = Card.changeset(card, %{"deleted_at" => DateTime.now!("Etc/UTC"), "parent_card_id" => nil})
+
+    if child do
+      Multi.new()
+      |> Multi.update(:update_child_card, Card.changeset(child, %{"parent_card_id" => card.parent_card_id}))
+      |> Multi.update(:update_card_deleted_at, card_changeset)
+      |> Repo.transaction()
+    else
+      Repo.update(card_changeset)
+    end
+  end
+
+  def unarchive_card(%Card{} = card) do
+    last_card =
+      Lists.get_list!(card.list_id)
+      |> Map.get(:cards)
+      |> Enum.reverse()
+      |> get_parent_card()
+
+    Card.changeset(card, %{"parent_card_id" => last_card, "deleted_at" => nil})
+    |> Repo.update()
   end
 
   def delete_card(%Card{} = card) do

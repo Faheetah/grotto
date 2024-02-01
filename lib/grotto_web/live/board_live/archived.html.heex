@@ -1,0 +1,49 @@
+<.header class="p-4 mb-4 bg-neutral-100">
+  <div class="flex gap-4">
+    <div class="grow">
+      <.link navigate={~p"/boards/#{@board.id}"} class="h-12 mt-auto w-96 -my-2">
+        <span class="text-2xl">Archived cards for <%= @board.name %></span>
+      </.link>
+    </div>
+
+    <div>
+      <.link navigate={"/boards/#{@board.id}"}>
+        <.button class="text-neutral-600 bg-neutral-300 hover:bg-neutral-400">Back to board</.button>
+      </.link>
+    </div>
+  </div>
+</.header>
+
+<div id="card-list" class="flex m-auto gap-4 px-4">
+  <%= if @cards != [] do %>
+  <div class="mx-auto p-2 mb-auto bg-neutral-200 space-y-2 w-1/4 rounded shadow-sm shadow-neutral-400 flex-shrink-0">
+    <%= for card <- @cards do %>
+      <div phx-hook="Keydown" class="text-sm" tabindex="-1" id={"card-#{card.id}"} phx-value-card={card.id}>
+        <.link patch={~p"/boards/#{@board.id}/cards/#{card.id}"} phx-value-card={card.id}>
+          <div class={"hover:ring-2 ring-neutral-500 bg-white rounded shadow"} phx-value-card={card.id}>
+            <%= if card.color do %>
+            <div class={"rounded-t #{color_card(card.color)} py-2"} phx-value-card={card.id}></div>
+            <% end %>
+            <div class="p-2" phx-value-card={card.id}>
+              <div phx-value-card={card.id}>
+                <span class="flex" phx-value-card={card.id}>
+                  <span class="grow" phx-value-card={card.id}><%= card.name %></span>
+                  <span class="text-neutral-100 font-thin hover:text-neutral-500" phx-value-card={card.id}></span>
+                </span>
+              </div>
+
+              <div phx-value-card={card.id}>
+                <%= if card.description do %>
+                  <.icon name="hero-bars-3-bottom-left" class="w-4 h-4" />
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </.link>
+      </div>
+    <% end %>
+  </div>
+  <% else %>
+  <div class="text-xl mx-auto">No archived cards</div>
+  <% end %>
+</div>

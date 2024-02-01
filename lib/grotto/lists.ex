@@ -38,9 +38,8 @@ defmodule Grotto.Lists do
 
   """
   def get_list!(id) do
-    List
-    |> preload([:cards])
-    |> Repo.get!(id)
+    Repo.get!(List, id)
+    |> Boards.get_cards()
   end
 
   @doc """
@@ -120,7 +119,7 @@ defmodule Grotto.Lists do
     |> Map.get(:cards)
     |> Enum.reduce(nil, fn card, parent_card_id ->
         card
-        |> Card.changeset(IO.inspect(%{"parent_card_id" => parent_card_id}))
+        |> Card.changeset(%{"parent_card_id" => parent_card_id})
         |> Repo.update!()
 
         card.id

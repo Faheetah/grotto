@@ -128,10 +128,23 @@ defmodule GrottoWeb.BoardLive.Show do
   def handle_event("archive_card", %{"card" => card}, socket) do
     # @todo this needs to reorder cards, then we can delete with no fkey
     Cards.get_card!(card)
-    |> Cards.delete_card()
+    |> Cards.archive_card()
 
     board = Boards.get_board!(socket.assigns.board.id)
     {:noreply, assign(socket, :board, board)}
+  end
+
+  def handle_event("delete_card", %{"id" => card}, socket) do
+    Cards.get_card!(card)
+    |> Cards.delete_card()
+
+    board = Boards.get_board!(socket.assigns.board.id)
+    {
+      :noreply,
+      socket
+      |> assign(:board, board)
+      |> push_redirect(to: "/boards/#{board.id}")
+    }
   end
 
   @impl true
