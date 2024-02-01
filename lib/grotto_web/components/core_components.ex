@@ -665,6 +665,8 @@ defmodule GrottoWeb.CoreComponents do
       "yellow" -> "bg-yellow-100"
       "orange" -> "bg-orange-100"
       "red" -> "bg-red-100"
+      "purple" -> "bg-purple-100"
+      "blue" -> "bg-blue-100"
       _ -> "bg-white"
     end
   end
