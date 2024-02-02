@@ -60,7 +60,7 @@ defmodule Grotto.Boards do
       |> recursive_ctes(true)
       |> with_cte("card_tree", as: fragment(@card_tree))
       |> join(:inner, [c], ct in "card_tree", on: ct.id == c.id)
-      |> where([c], c.list_id == ^list.id and is_nil c.deleted_at)
+      |> where([c], c.list_id == ^list.id and is_nil(c.deleted_at))
       |> select([c, ct], %{c | id: c.id})
       |> order_by([c, ct], ct.path)
       |> Repo.all()

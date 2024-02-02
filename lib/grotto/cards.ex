@@ -198,8 +198,12 @@ defmodule Grotto.Cards do
       |> Enum.reverse()
       |> get_parent_card()
 
-    Card.changeset(card, %{"parent_card_id" => last_card, "deleted_at" => nil})
-    |> Repo.update()
+    # This happens if you spam 'c' and phoenix sends too many events for the same card
+    # It needs debouncing at least but we should also check this
+    if card.id != last_card do
+      Card.changeset(card, %{"parent_card_id" => last_card, "deleted_at" => nil})
+      |> Repo.update()
+    end
   end
 
   def delete_card(%Card{} = card) do
