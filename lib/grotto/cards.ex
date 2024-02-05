@@ -21,6 +21,7 @@ defmodule Grotto.Cards do
       join: c in Card,
       on: c.list_id == l.id,
       where: not is_nil(c.deleted_at),
+      order_by: [desc: c.deleted_at],
       select: %{name: c.name, description: c.description, id: c.id, color: c.color, deleted_at: c.deleted_at, list: %{name: l.name}}
     )
   end
