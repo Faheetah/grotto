@@ -48,7 +48,9 @@ defmodule GrottoWeb.BoardLive.ListComponent do
 
               <div phx-value-card={card.id}>
                 <%= if card.description do %>
-                  <.icon name="hero-bars-3-bottom-left" class="w-4 h-4" />
+                  <div title={card.description}>
+                    <.icon name="hero-bars-3-bottom-left" class="w-4 h-4" />
+                  </div>
                 <% end %>
               </div>
             </div>
