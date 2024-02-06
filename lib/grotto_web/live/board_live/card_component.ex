@@ -5,10 +5,11 @@ defmodule GrottoWeb.BoardLive.CardComponent do
   def render(assigns) do
     ~H"""
     <div class="space-y-4 min-h-48 overflow-y-visible h-full m-auto">
-      <div class="text-2xl pl-2">
-        <.inline_input class="h-8 w-96 -my-2" value={@card.name} action="rename_card" id={@card.id} phx-value-card_id={@card.id}>
-          <span><%= @card.name %></span>
+      <div class="pl-2">
+        <.inline_input class="h-8 w-96" value={@card.name} action="rename_card" id={@card.id} phx-value-card_id={@card.id}>
+          <div class="text-2xl"><%= @card.name %></div>
         </.inline_input>
+        <div class="mt-2 text-md">Created <%= @card.inserted_at %></div>
       </div>
 
       <div>
