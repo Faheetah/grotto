@@ -37,12 +37,11 @@
               </div>
 
               <div class="flex" phx-value-card={card.id}>
-                <%= if card.description do %>
-                  <.icon name="hero-bars-3-bottom-left" class="grow w-4 h-4" />
-                <% else %>
-                  <div class="grow"> </div>
-                <% end %>
-                  <span class="inline text-neutral-400">in list <%= card.list.name %></span>
+                <div class="grow text-neutral-400">
+                  archived <%= card.deleted_at.year %>-<%=card.deleted_at.month %>-<%= card.deleted_at.day %> <%= card.deleted_at.hour %>:<%= card.deleted_at.minute %>:<%= card.deleted_at.second %> UTC
+                </div>
+
+                <span class="inline text-neutral-400">in list <%= card.list.name %></span>
               </div>
             </div>
           </div>
