@@ -2,7 +2,6 @@ defmodule Grotto.Cards.Card do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Grotto.Boards.Boards
   alias Grotto.Lists.List
 
   @derive [Poison.Encoder]

@@ -2,7 +2,6 @@ defmodule GrottoWeb.BoardLive.Archived do
   use GrottoWeb, :live_view
 
   alias Grotto.Boards
-  alias Grotto.Lists
   alias Grotto.Cards
 
   @impl true
@@ -11,7 +10,7 @@ defmodule GrottoWeb.BoardLive.Archived do
   end
 
   @impl true
-  def handle_params(%{"id" => id} = params, _, socket) do
+  def handle_params(%{"id" => id} = _params, _, socket) do
     {board_id, _} = Integer.parse(id)
 
     socket
