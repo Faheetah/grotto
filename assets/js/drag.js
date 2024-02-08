@@ -2,40 +2,38 @@ export default {
   mounted() {
     this.el.ondrop = (event) => {
       event.preventDefault();
-      const sourceCard = event.dataTransfer.getData("cardId");
 
-      if(!sourceCard) {
-        event.currentTarget.classList.remove("pt-12");
-        return
-      }
-
-      const targetCard = event.target.getAttribute("phx-value-card");
-      const list = event.target.getAttribute("phx-value-list");
+      const targetCard = event.target.closest("div[phx-value-card]").getAttribute("phx-value-card");
+      const list = event.target.closest("div[phx-value-card]").getAttribute("phx-value-list");
 
       this.pushEvent("reorder_card", {
-        sourceCard: sourceCard,
+        sourceCard: document.sourceCard,
         targetCard: targetCard,
         list: list,
       })
 
-      event.currentTarget.classList.remove("pt-12");
+      event.target.classList.remove("pt-12")
+      document.sourceCard = undefined
     }
 
     this.el.ondragover = (event) => {
-      if (document.archiveTarget && document.archiveTarget != "last") {
-        event.currentTarget.classList.add("pt-12");
+      card = event.target.closest("div[phx-value-card]").getAttribute("phx-value-card")
+
+      if(card && card != document.sourceCard) {
+        event.target.closest("div[phx-value-card]").classList.add("pt-12")
       }
     }
 
     this.el.ondragleave = (event) => {
-      event.toElement.classList.remove("pt-12");
+      card = event.target.getAttribute("phx-value-card")
+
+      if(card) {
+        event.target.closest("div[phx-value-card]").classList.remove("pt-12")
+      }
     }
 
     this.el.ondragstart = (event) => {
-      event.dataTransfer.setData(
-        "cardId",
-        event.target.getAttribute("phx-value-card")
-      )
+      document.sourceCard = event.target.closest("div[phx-value-card]").getAttribute("phx-value-card")
     }
   }
 }

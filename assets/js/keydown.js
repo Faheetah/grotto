@@ -31,7 +31,10 @@ export default {
     })
 
     this.el.onmouseover = (event) => {
-      document.archiveTarget = event.target.getAttribute("phx-value-card")
+      let target = event.target.closest("div[phx-value-card]")
+      if(target != undefined) {
+        document.archiveTarget = event.target.closest("div[phx-value-card]").getAttribute("phx-value-card")
+      }
     }
 
     this.el.onmouseout = (event) => {
