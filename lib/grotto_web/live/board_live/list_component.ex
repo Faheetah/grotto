@@ -57,7 +57,7 @@ defmodule GrottoWeb.BoardLive.ListComponent do
 
       <div class="mb-2">
         <.inline_input class="w-64 mt-1 mb-2 ml-2 h-8" action="new_card" phx-value-list_id={@list.id} id={@list.id}>
-          <div phx-value-card="last" phx-value-list={@list.id} phx-hook="Drag" id={"new-button-#{@list.id}"} class="p-2 text-sm font-medium w-full hover:bg-neutral-200">
+          <div phx-value-card="last" phx-value-list={@list.id} phx-hook="Drag" id={"new-button-#{@list.id}"} class="px-2 pt-1 pb-2 m-2 my-2 text-sm font-medium cursor-pointer rounded hover:bg-neutral-200">
             <span class="text-xl">+</span> Add a card
           </div>
         </.inline_input>
