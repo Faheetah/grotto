@@ -37,7 +37,7 @@ defmodule GrottoWeb.BoardLive.ListComponent do
             <%= if card.color do %>
             <div class={"rounded-t #{color_card(card.color)} py-2"}></div>
             <% end %>
-            <div class="p-2">
+            <div class="p-2 break-words">
               <div>
                 <%= card.name %>
               </div>
