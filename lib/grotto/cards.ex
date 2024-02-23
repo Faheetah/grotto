@@ -55,7 +55,9 @@ defmodule Grotto.Cards do
   defp get_parent_card([card | _rest]), do: card.id
 
   def get_card!(card_id) do
-    Repo.get!(Card, card_id)
+    Card
+    |> Repo.get!(card_id)
+    |> Repo.preload(:list, only: [:name])
   end
 
   def set_color(%Card{color: new_color} = card, new_color) do

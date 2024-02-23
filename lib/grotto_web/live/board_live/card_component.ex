@@ -7,9 +7,10 @@ defmodule GrottoWeb.BoardLive.CardComponent do
     <div class="space-y-4 min-h-48 overflow-y-visible h-full m-auto">
       <div class="pl-2">
         <.inline_input class="h-8 w-96" value={@card.name} action="rename_card" id={@card.id} phx-value-card_id={@card.id}>
-          <div class="text-2xl"><%= @card.name %></div>
+          <div class="text-2xl font-medium"><%= @card.name %></div>
         </.inline_input>
-        <div class="mt-2 text-md">Created <%= @card.inserted_at %></div>
+        <div class="mt-2 text-sm">in list <span class="font-medium"><%= @card.list.name %></span></div>
+        <div class="mt-2 text-sm">created <span class="font-medium"><%= @card.inserted_at.month %>/<%= @card.inserted_at.day %>/<%= @card.inserted_at.year %></span></div>
       </div>
 
       <div class="space-y-8">
