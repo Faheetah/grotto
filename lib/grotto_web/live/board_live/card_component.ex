@@ -14,14 +14,14 @@ defmodule GrottoWeb.BoardLive.CardComponent do
 
       <div class="space-y-8">
         <div id="card-view">
-          <.link id="card-viw" onclick={"document.getElementById('card-input').style.display = 'block'; document.getElementById('card-input-field').focus(); document.getElementById('card-view').style.display = 'none';"}>
-            <div id="new-button-card" class="space-y-4 text-sm p-2 w-72 w-full min-h-80 h-auto rounded">
+          <.link id="card-view" onclick={"document.getElementById('card-input').style.display = 'block'; document.getElementById('card-input-field').focus(); document.getElementById('card-view').style.display = 'none';"}>
+            <div class="space-y-4 text-sm p-2 w-72 w-full min-h-80 h-auto rounded">
               <div class="text-xl font-medium">Description</div>
 
-              <div>
+              <div class="break-words">
                 <%= if @card.description do %>
                   <%= for line <- String.split(@card.description, "\n") do %>
-                    <div><%= line %></div>
+                    <%= line %><br />
                   <% end %>
                 <% else %>
                   <span class="text-neutral-500 font-thin italic">No description</span>
@@ -35,7 +35,7 @@ defmodule GrottoWeb.BoardLive.CardComponent do
           </.link>
         </div>
 
-        <div id="card-input" class="hidden h-12 w-full min-h-48 m-auto">
+        <div id="card-input" class="hidden h-12 w-full h-auto min-h-48 m-auto">
           <.form for={%{}} :let={f} phx-submit="update_card_description" phx-value-card_id={@card.id} class="h-full m-auto">
             <.input
               field={f[:description]}
