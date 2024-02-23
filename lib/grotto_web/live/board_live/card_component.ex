@@ -12,10 +12,13 @@ defmodule GrottoWeb.BoardLive.CardComponent do
         <div class="mt-2 text-md">Created <%= @card.inserted_at %></div>
       </div>
 
-      <div>
+      <div class="space-y-8">
         <div id="card-view">
           <.link id="card-viw" onclick={"document.getElementById('card-input').style.display = 'block'; document.getElementById('card-input-field').focus(); document.getElementById('card-view').style.display = 'none';"}>
-            <div id="new-button-card" class="h-12 font-medium p-2 w-72 bg-neutral-100 w-full min-h-80 rounded">
+            <div id="new-button-card" class="space-y-4 text-sm p-2 w-72 w-full min-h-80 h-auto rounded">
+              <div class="text-xl font-medium">Description</div>
+
+              <div>
                 <%= if @card.description do %>
                   <%= for line <- String.split(@card.description, "\n") do %>
                     <div><%= line %></div>
@@ -23,6 +26,7 @@ defmodule GrottoWeb.BoardLive.CardComponent do
                 <% else %>
                   <span class="text-neutral-500 font-thin italic">No description</span>
                 <% end %>
+              </div>
             </div>
           </.link>
 
@@ -31,14 +35,14 @@ defmodule GrottoWeb.BoardLive.CardComponent do
           </.link>
         </div>
 
-        <div id="card-input" class="hidden h-12 font-medium w-full min-h-48 m-auto">
+        <div id="card-input" class="hidden h-12 w-full min-h-48 m-auto">
           <.form for={%{}} :let={f} phx-submit="update_card_description" phx-value-card_id={@card.id} class="h-full m-auto">
             <.input
               field={f[:description]}
               phx-value-card_id={@card.id}
               type="textarea"
               value={@card.description}
-              class="w-full min-h-48 m-auto resize-none rounded overflow-y-auto"
+              class="w-full min-h-96 text-sm m-auto resize-none rounded overflow-y-auto"
               id={"card-input-field"}
             />
 

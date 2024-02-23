@@ -45,7 +45,7 @@
   </div>
 </div>
 
-<.modal :if={@live_action == :show_card} id="card-modal" show on_cancel={JS.patch(~p"/boards/#{@board}")}>
+<.card_modal :if={@live_action == :show_card} id="card-modal" show on_cancel={JS.patch(~p"/boards/#{@board}")}>
   <.live_component
     module={GrottoWeb.BoardLive.CardComponent}
     id={"card-form-#{@board.id}"}
@@ -53,4 +53,4 @@
     board={@board}
     card={@card}
   />
-</.modal>
+</.card_modal>
