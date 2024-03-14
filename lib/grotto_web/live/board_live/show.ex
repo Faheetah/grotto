@@ -158,6 +158,16 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :lists, lists)}
   end
 
+  @impl true
+  def handle_event("rerank_list", %{"list_id" => list_id, "value" => rank}, socket) do
+    Lists.get_list!(list_id)
+    |> Lists.update_list(%{"rank" => rank})
+    |> IO.inspect
+
+    lists = Lists.list_lists_for_board(socket.assigns.board.id)
+    {:noreply, assign(socket, :lists, lists)}
+  end
+
   def handle_event("delete_list", %{"list_id" => list_id}, socket) do
     Lists.get_list!(list_id)
     |> Lists.delete_list()

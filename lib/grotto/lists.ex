@@ -22,6 +22,7 @@ defmodule Grotto.Lists do
   def list_lists_for_board(board_id) do
     List
     |> where([l], l.board_id == ^board_id)
+    |> order_by([l], l.rank)
     |> Repo.all()
     |> Enum.map(fn list -> Map.put(list, :cards, Boards.get_cards(list)) end)
   end
@@ -78,6 +79,7 @@ defmodule Grotto.Lists do
   def update_list(%List{} = list, attrs) do
     list
     |> List.changeset(attrs)
+    |> IO.inspect
     |> Repo.update()
   end
 
@@ -118,7 +120,7 @@ defmodule Grotto.Lists do
   """
   def fix_list(%List{} = list) do
     list
-    |> Boards.get_cards
+    |> Map.put(:cards, Boards.get_cards(list))
     |> Map.get(:cards)
     |> Enum.reduce(nil, fn card, parent_card_id ->
         card

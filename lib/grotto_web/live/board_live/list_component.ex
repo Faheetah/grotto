@@ -23,6 +23,10 @@ defmodule GrottoWeb.BoardLive.ListComponent do
           </.link>
         </div>
       </.inline_input>
+          <.inline_input class="h-4 ml-2 w-12" value={@list.rank || 0} action="rerank_list" id={@list.id} phx-value-list_id={@list.id}>
+            <div class="text-xs mb-2 ml-2 text-neutral-200">rank:<%= @list.rank || "NOTSET" %></div>
+          </.inline_input>
+
 
       <%= for card <-@list.cards do %>
         <div

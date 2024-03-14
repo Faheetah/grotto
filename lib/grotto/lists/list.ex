@@ -9,6 +9,7 @@ defmodule Grotto.Lists.List do
 
   schema "lists" do
     field :name, :string
+    field :rank, :integer
     belongs_to :board, Board
     has_many :cards, Card
 
@@ -18,7 +19,7 @@ defmodule Grotto.Lists.List do
   @doc false
   def changeset(list, attrs) do
     list
-    |> cast(attrs, [:name, :board_id])
+    |> cast(attrs, [:name, :rank, :board_id])
     |> validate_required([:name, :board_id])
   end
 end
