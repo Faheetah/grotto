@@ -36,7 +36,7 @@ defmodule GrottoWeb.BoardLive.Show do
   def handle_event("new_card", %{"list_id" => list_id} = params, socket) do
     card = Grotto.Cards.create_card(Map.put(params, "name", params["value"]))
 
-    socket.assigns.board.lists
+    socket.assigns.lists
     |> Enum.reduce([], fn l, acc ->
       if l.id == list_id do
         [[card | l] | acc]
