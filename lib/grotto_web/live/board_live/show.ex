@@ -159,9 +159,7 @@ defmodule GrottoWeb.BoardLive.Show do
   end
 
   def handle_event("delete_list", %{"list_id" => list_id}, socket) do
-    IO.inspect(list_id)
     Lists.get_list!(list_id)
-    |> IO.inspect
     |> Lists.delete_list()
 
     lists = Lists.list_lists_for_board(socket.assigns.board.id)
