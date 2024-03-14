@@ -19,8 +19,11 @@ defmodule Grotto.Lists do
       [%List{}, ...]
 
   """
-  def list_lists do
-    Repo.all(List)
+  def list_lists_for_board(board_id) do
+    List
+    |> where([l], l.board_id == ^board_id)
+    |> Repo.all()
+    |> Enum.map(fn list -> Map.put(list, :cards, Boards.get_cards(list)) end)
   end
 
   @doc """
@@ -38,8 +41,8 @@ defmodule Grotto.Lists do
 
   """
   def get_list!(id) do
-    Repo.get!(List, id)
-    |> Boards.get_cards()
+    list = Repo.get!(List, id)
+    Map.put(list, :cards, Boards.get_cards(list))
   end
 
   @doc """

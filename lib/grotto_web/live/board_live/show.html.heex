@@ -28,7 +28,7 @@
 </.header>
 
 <div id="card-list" phx-hook="Keydown" class="flex m-auto gap-2 px-4">
-  <%= for list <- @board.lists do %>
+  <%= for list <- @lists do %>
     <.live_component
       module={GrottoWeb.BoardLive.ListComponent}
       id={"list-#{list.id}"}

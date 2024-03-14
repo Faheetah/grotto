@@ -17,6 +17,7 @@ defmodule GrottoWeb.BoardLive.Show do
     socket
     |> assign(:page_title, page_title(socket.assigns.live_action))
     |> assign(:board, Boards.get_board!(board_id))
+    |> assign(:lists, Lists.list_lists_for_board(board_id))
     |> apply_action(socket.assigns.live_action, params)
     |> then(fn s -> {:noreply, s} end)
   end
@@ -45,8 +46,8 @@ defmodule GrottoWeb.BoardLive.Show do
     end)
     |> Enum.reverse()
 
-    board = Grotto.Boards.get_board!(socket.assigns.board.id)
-    {:noreply, assign(socket, :board, board)}
+    lists = Grotto.Lists.list_lists_for_board(socket.assigns.board.id)
+    {:noreply, assign(socket, :lists, lists)}
   end
 
   @impl true
@@ -59,8 +60,8 @@ defmodule GrottoWeb.BoardLive.Show do
     {:ok, _list} = Grotto.Lists.create_list(Map.put(params, "name", params["value"]))
 
     # this is ugly but we can't update/3 because of board
-    board = Grotto.Boards.get_board!(socket.assigns.board.id)
-    {:noreply, assign(socket, :board, board)}
+    lists = Grotto.Lists.list_lists_for_board(socket.assigns.board.id)
+    {:noreply, assign(socket, :lists, lists)}
   end
 
   def handle_event("update_card_description", %{"card_id" => card_id, "description" => description}, socket) do
@@ -74,7 +75,7 @@ defmodule GrottoWeb.BoardLive.Show do
     {list_id, _} = Integer.parse(list)
 
     last_card =
-      socket.assigns.board.lists
+      socket.assigns.lists
       |> Enum.find(fn l -> l.id == list_id end)
       |> Map.get(:cards)
       |> List.last()
@@ -84,8 +85,8 @@ defmodule GrottoWeb.BoardLive.Show do
       target_card -> Cards.reorder_card(source_card_id, target_card.id, list)
     end
 
-    board = Boards.get_board!(socket.assigns.board.id)
-    {:noreply, assign(socket, :board, board)}
+    lists = Lists.list_lists_for_board(socket.assigns.board.id)
+    {:noreply, assign(socket, :lists, lists)}
   end
 
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => target_card}, socket) do
@@ -94,16 +95,16 @@ defmodule GrottoWeb.BoardLive.Show do
 
     Cards.reorder_card(source_card_id, target_card_id)
 
-    board = Boards.get_board!(socket.assigns.board.id)
-    {:noreply, assign(socket, :board, board)}
+    lists = Lists.list_lists_for_board(socket.assigns.board.id)
+    {:noreply, assign(socket, :lists, lists)}
   end
 
   def handle_event("set_color", %{"card" => card, "color" => color}, socket) do
     Cards.get_card!(card)
     |> Cards.set_color(color)
 
-    board = Boards.get_board!(socket.assigns.board.id)
-    {:noreply, assign(socket, :board, board)}
+    lists = Lists.list_lists_for_board(socket.assigns.board.id)
+    {:noreply, assign(socket, :lists, lists)}
   end
 
   def handle_event("fix_list", %{"list_id" => list_id}, socket) do
@@ -111,8 +112,8 @@ defmodule GrottoWeb.BoardLive.Show do
     |> Lists.get_list!
     |> Lists.fix_list
 
-    board = Boards.get_board!(socket.assigns.board.id)
-    {:noreply, assign(socket, :board, board)}
+    lists = Lists.list_lists_for_board(socket.assigns.board.id)
+    {:noreply, assign(socket, :lists, lists)}
   end
 
   @impl true
@@ -130,20 +131,20 @@ defmodule GrottoWeb.BoardLive.Show do
     Cards.get_card!(card)
     |> Cards.archive_card()
 
-    board = Boards.get_board!(socket.assigns.board.id)
-    {:noreply, assign(socket, :board, board)}
+    lists = Lists.list_lists_for_board(socket.assigns.board.id)
+    {:noreply, assign(socket, :lists, lists)}
   end
 
   def handle_event("delete_card", %{"id" => card}, socket) do
     Cards.get_card!(card)
     |> Cards.delete_card()
 
-    board = Boards.get_board!(socket.assigns.board.id)
+    lists = Lists.list_lists_for_board(socket.assigns.board.id)
     {
       :noreply,
       socket
-      |> assign(:board, board)
-      |> push_redirect(to: "/boards/#{board.id}")
+      |> assign(:lists, lists)
+      |> push_redirect(to: "/boards/#{socket.assigns.board.id}")
     }
   end
 
@@ -153,16 +154,18 @@ defmodule GrottoWeb.BoardLive.Show do
     list = Lists.get_list!(id)
     {:ok, _} = Lists.update_list(list, %{"name" => name})
 
-    board = Boards.get_board!(socket.assigns.board.id)
-    {:noreply, assign(socket, :board, board)}
+    lists = Lists.list_lists_for_board(socket.assigns.board.id)
+    {:noreply, assign(socket, :lists, lists)}
   end
 
   def handle_event("delete_list", %{"list_id" => list_id}, socket) do
+    IO.inspect(list_id)
     Lists.get_list!(list_id)
+    |> IO.inspect
     |> Lists.delete_list()
 
-    board = Boards.get_board!(socket.assigns.board.id)
-    {:noreply, assign(socket, :board, board)}
+    lists = Lists.list_lists_for_board(socket.assigns.board.id)
+    {:noreply, assign(socket, :lists, lists)}
   end
 
   @impl true
