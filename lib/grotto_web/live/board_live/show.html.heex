@@ -1,4 +1,4 @@
-<.header class="p-4 mb-4 bg-neutral-100">
+<.header class="shrink-0 w-full p-4 mb-4 bg-neutral-100">
   <div class="flex gap-4">
     <div class="grow">
     <.inline_input class="h-8 w-96 -my-2" value={@board.name || ""} action="update_board" phx-value-board_id={@board.id}>
@@ -27,7 +27,7 @@
   </div>
 </.header>
 
-<div id="card-list" phx-hook="Keydown" class="flex m-auto gap-2 px-4">
+<div id="card-list" phx-hook="Keydown" class="flex grow w-full overflow-auto m-auto gap-2 px-4">
   <%= for list <- @lists do %>
     <.live_component
       module={GrottoWeb.BoardLive.ListComponent}

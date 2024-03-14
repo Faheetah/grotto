@@ -4,7 +4,7 @@ defmodule GrottoWeb.BoardLive.ListComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="px-1 mb-auto border h-full bg-neutral-100 border-neutral-200 rounded w-72 flex-shrink-0">
+    <div class="grow shrink-0 overflow-y-auto px-1 mb-auto border max-h-full bg-neutral-100 border-neutral-200 rounded w-80">
       <.inline_input class="h-8 w-full my-1" value={@list.name || ""} action="rename_list" id={@list.id} phx-value-list_id={@list.id}>
         <div class="p-2 flex font-bold text-sm">
           <div class="grow">
