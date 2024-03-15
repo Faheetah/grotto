@@ -325,7 +325,7 @@ defmodule GrottoWeb.CoreComponents do
 
       <div id={"#{@action}-input-#{@id}"} class={"hidden"}>
         <form phx-submit={JS.pop_focus() |> JS.hide(to: "##{@action}-input-#{@id}") |> JS.show(to: "##{@action}-render-#{@id}")}>
-          <input phx-blur={JS.push(@action) |> JS.hide(to: "##{@action}-input-#{@id}") |> JS.show(to: "##{@action}-render-#{@id}")} type="text" id={"#{@action}-input-field-#{@id}"} {@rest} />
+          <input onfocus="this.select()" phx-blur={JS.push(@action) |> JS.hide(to: "##{@action}-input-#{@id}") |> JS.show(to: "##{@action}-render-#{@id}")} type="text" id={"#{@action}-input-field-#{@id}"} {@rest} />
         </form>
       </div>
     </div>

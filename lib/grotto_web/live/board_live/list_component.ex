@@ -4,8 +4,8 @@ defmodule GrottoWeb.BoardLive.ListComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="grow shrink-0 overflow-y-auto px-1 mb-auto border max-h-full bg-neutral-100 border-neutral-200 rounded min-w-80 max-w-80">
-      <.inline_input class="h-8 w-full my-1" value={@list.name || ""} action="rename_list" id={@list.id} phx-value-list_id={@list.id}>
+    <div class="grow shrink-0 overflow-y-auto pt-1 px-2 mb-auto border max-h-full bg-neutral-100 border-neutral-200 rounded min-w-80 max-w-80">
+      <.inline_input class="h-8 w-full my-1 rounded-lg" value={@list.name || ""} action="rename_list" id={@list.id} phx-value-list_id={@list.id}>
         <div class="p-2 flex font-bold text-sm">
           <div class="grow">
               <span><%= @list.name %></span>
@@ -23,9 +23,10 @@ defmodule GrottoWeb.BoardLive.ListComponent do
           </.link>
         </div>
       </.inline_input>
-          <.inline_input class="h-4 ml-2 w-12" value={@list.rank || 0} action="rerank_list" id={@list.id} phx-value-list_id={@list.id}>
-            <div class="text-xs mb-2 ml-2 text-neutral-200">rank:<%= @list.rank || "NOTSET" %></div>
-          </.inline_input>
+
+      <.inline_input class="h-4 ml-2 w-12 rounded" value={@list.rank || 0} action="rerank_list" id={@list.id} phx-value-list_id={@list.id}>
+        <div class="text-xs mb-2 ml-2 text-neutral-200">rank:<%= @list.rank || "NOTSET" %></div>
+      </.inline_input>
 
 
       <%= for card <-@list.cards do %>
