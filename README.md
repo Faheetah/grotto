@@ -1,13 +1,6 @@
 # Grotto
 
-To start your Phoenix server:
-
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+This application is a Trello clone. It only runs locally and is mainly for my own personal use. There are no guarantees it will work. There is an included docker-compose file for playing around with it.
 
 # Docker
 
@@ -18,11 +11,3 @@ docker-compose up -d postgres
 docker-compose run grotto /app/bin/migrate
 docker-compose up -d grotto
 ```
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
