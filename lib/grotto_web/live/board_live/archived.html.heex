@@ -14,7 +14,7 @@
   </div>
 </.header>
 
-<div id="card-list" class="gap-4 w-full mx-auto flex flex-col px-4">
+<div id="card-list" class="gap-4 overflow-y-auto max-h-full w-full mx-auto flex flex-col px-4">
   <div class="text-xl mx-auto">
     <%= if @cards != [] do %>
       Showing <%= length(@cards) %> cards
