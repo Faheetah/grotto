@@ -1,6 +1,11 @@
 export default {
   mounted() {
     window.addEventListener("keydown", (event) => {
+      // Ignore any modifier keys
+      if(event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+        return
+      }
+
       // Ignore last slot, it will trigger events
       if(document.archiveTarget == "last") {
         return
