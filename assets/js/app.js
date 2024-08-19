@@ -22,10 +22,11 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import Drag from "./drag"
 import Keydown from "./keydown"
+import Typing from "./typing"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
-  hooks: {Drag, Keydown},
+  hooks: {Drag, Keydown, Typing},
   params: {_csrf_token: csrfToken}
 })
 

@@ -11,6 +11,11 @@ export default {
         return
       }
 
+      // Ignore if typing in input field
+      if(document.isTyping) {
+        return
+      }
+
       if(document.archiveTarget && event.key == "c") {
         this.pushEvent("archive_card", {
           card: document.archiveTarget
