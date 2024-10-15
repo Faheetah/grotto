@@ -10,6 +10,17 @@ defmodule GrottoWeb.BoardLive.CardComponent do
           <div class="text-2xl font-medium"><%= @card.name %></div>
         </.inline_input>
         <div class="mt-2 text-sm">in list <span class="font-medium"><%= @card.list.name %></span></div>
+
+        <.local_time time={@card.due_date} tz={@tz_offset} />
+        <form phx-submit="update_due_date">
+          <input class="w-60 inline" type="datetime-local" name="due_date" value={@card.due_date} />
+          <input type="hidden" name="card_id" value={@card.id} />
+
+          <.button phx-disable-with="Saving...">
+            Save
+          </.button>
+        </form>
+
         <div class="mt-2 text-sm">created <span class="font-medium"><%= @card.inserted_at.month %>/<%= @card.inserted_at.day %>/<%= @card.inserted_at.year %></span></div>
       </div>
 

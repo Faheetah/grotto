@@ -20,6 +20,31 @@ defmodule GrottoWeb.CoreComponents do
   import GrottoWeb.Gettext
 
   @doc """
+  Renders local time zone
+  """
+
+  def local_time(%{tz: tz, time: time} = assigns) when is_nil(tz) or is_nil(time) do
+    ~H"""
+    <div />
+    """
+  end
+
+  def local_time(assigns) do
+    color =
+      case Date.compare(assigns.time, DateTime.now!("Etc/UTC")) do
+        :gt -> "text-green-700"
+        :lt -> "text-red-700"
+        :eq -> "text-yellow-700"
+      end
+
+    assigns = assign(assigns, :color, color)
+
+    ~H"""
+    <div class={["text-xs mt-2 font-bold", @color]}><.icon name="hero-calendar" class="w-3 h-4" /> <%= Timex.Timezone.convert(@time, @tz) |> Timex.format!("{WDshort} {Mshort} {D}, {YYYY}") %></div>
+    """
+  end
+
+  @doc """
   Renders a card modal.
 
   ## Examples

@@ -7,7 +7,7 @@ defmodule GrottoWeb.BoardLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, :tz_offset, Map.get(socket.private.connect_params, "tz_offset"))}
   end
 
   @impl true
@@ -64,12 +64,14 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :lists, lists)}
   end
 
+  @impl true
   def handle_event("update_card_description", %{"card_id" => card_id, "description" => description}, socket) do
     {:ok, card} = Cards.update_card_description(Cards.get_card!(card_id), description)
 
     {:noreply, assign(socket, :card, card)}
   end
 
+  @impl true
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => "last", "list" => list}, socket) do
     {source_card_id, _} = Integer.parse(source_card)
     {list_id, _} = Integer.parse(list)
@@ -89,6 +91,7 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :lists, lists)}
   end
 
+  @impl true
   def handle_event("reorder_card", %{"sourceCard" => source_card, "targetCard" => target_card}, socket) do
     {source_card_id, _} = Integer.parse(source_card)
     {target_card_id, _} = Integer.parse(target_card)
@@ -99,6 +102,14 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :lists, lists)}
   end
 
+  @impl true
+  def handle_event("update_due_date", %{"card_id" => card_id, "due_date" => due_date}, socket) do
+    {:ok, card} = Cards.update_due_date(Cards.get_card!(card_id), due_date)
+
+    {:noreply, assign(socket, :card, card)}
+  end
+
+  @impl true
   def handle_event("set_color", %{"card" => card, "color" => color}, socket) do
     Cards.get_card!(card)
     |> Cards.set_color(color)
@@ -107,6 +118,7 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :lists, lists)}
   end
 
+  @impl true
   def handle_event("fix_list", %{"list_id" => list_id}, socket) do
     list_id
     |> Lists.get_list!
@@ -125,6 +137,7 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :card, card)}
   end
 
+  @impl true
   def handle_event("archive_card", %{"card" => "last"}, socket), do: {:noreply, socket}
   def handle_event("archive_card", %{"card" => card}, socket) do
     # @todo this needs to reorder cards, then we can delete with no fkey
@@ -135,6 +148,7 @@ defmodule GrottoWeb.BoardLive.Show do
     {:noreply, assign(socket, :lists, lists)}
   end
 
+  @impl true
   def handle_event("delete_card", %{"id" => card}, socket) do
     Cards.get_card!(card)
     |> Cards.delete_card()
@@ -162,12 +176,12 @@ defmodule GrottoWeb.BoardLive.Show do
   def handle_event("rerank_list", %{"list_id" => list_id, "value" => rank}, socket) do
     Lists.get_list!(list_id)
     |> Lists.update_list(%{"rank" => rank})
-    |> IO.inspect
 
     lists = Lists.list_lists_for_board(socket.assigns.board.id)
     {:noreply, assign(socket, :lists, lists)}
   end
 
+  @impl true
   def handle_event("delete_list", %{"list_id" => list_id}, socket) do
     Lists.get_list!(list_id)
     |> Lists.delete_list()

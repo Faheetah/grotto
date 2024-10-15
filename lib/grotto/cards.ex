@@ -46,6 +46,11 @@ defmodule Grotto.Cards do
     |> Repo.update()
   end
 
+  def update_due_date(%Card{} = card, due_date) do
+    Card.changeset(card, %{"due_date" => due_date})
+    |> Repo.update()
+  end
+
   def update_card_description(%Card{} = card, description) do
     Card.changeset(card, %{"description" => description})
     |> Repo.update()

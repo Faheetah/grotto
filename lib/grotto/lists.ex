@@ -79,7 +79,6 @@ defmodule Grotto.Lists do
   def update_list(%List{} = list, attrs) do
     list
     |> List.changeset(attrs)
-    |> IO.inspect
     |> Repo.update()
   end
 

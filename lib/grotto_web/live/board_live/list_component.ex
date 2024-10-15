@@ -1,6 +1,12 @@
 defmodule GrottoWeb.BoardLive.ListComponent do
   use GrottoWeb, :live_component
 
+
+  @impl true
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, :tz_offset, Map.get(socket.private.connect_params, "tz_offset"))}
+  end
+
   @impl true
   def render(assigns) do
     ~H"""
@@ -47,10 +53,12 @@ defmodule GrottoWeb.BoardLive.ListComponent do
                 <%= card.name %>
               </div>
 
+              <.local_time time={card.due_date} tz={@tz_offset} />
+
               <div>
                 <%= if card.description do %>
                 <div title={card.description}>
-                  <.icon title={card.description} name="hero-bars-3-bottom-left" class="w-4 h-4" />
+                  <.icon name="hero-bars-3-bottom-left" class="w-4 h-4" />
                 </div>
                 <% end %>
               </div>

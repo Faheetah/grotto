@@ -10,10 +10,11 @@ defmodule Grotto.Cards.Card do
     field :name, :string
     field :description, :string
     field :color, :string
+    field :due_date, :utc_datetime
+    field :deleted_at, :utc_datetime
     belongs_to :card, __MODULE__, foreign_key: :parent_card_id
     belongs_to :list, List
 
-    field :deleted_at, :utc_datetime
     timestamps(type: :utc_datetime)
   end
 
@@ -21,7 +22,7 @@ defmodule Grotto.Cards.Card do
   def changeset(nil, _), do: nil
   def changeset(card, attrs) do
     card
-    |> cast(attrs, [:name, :description, :color, :list_id, :parent_card_id, :deleted_at])
+    |> cast(attrs, [:name, :description, :color, :list_id, :parent_card_id, :deleted_at, :due_date])
     |> validate_required([:name, :list_id])
   end
 end

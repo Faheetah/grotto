@@ -23,11 +23,17 @@ import {LiveSocket} from "phoenix_live_view"
 import Drag from "./drag"
 import Keydown from "./keydown"
 import Typing from "./typing"
+import {TzOffset} from "./tz_offset"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+
+// get the current date/time from the client
+let tz_offset = Intl.DateTimeFormat().resolvedOptions().timeZone
+document.cookie = "_tz_offset=" + Intl.DateTimeFormat().resolvedOptions().timeZone
+
 let liveSocket = new LiveSocket("/live", Socket, {
-  hooks: {Drag, Keydown, Typing},
-  params: {_csrf_token: csrfToken}
+  hooks: {Drag, Keydown, Typing, TzOffset},
+  params: {_csrf_token: csrfToken, tz_offset: tz_offset}
 })
 
 // connect if there are any LiveViews on the page
