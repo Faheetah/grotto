@@ -13,11 +13,13 @@ defmodule GrottoWeb.BoardLive.Show do
   @impl true
   def handle_params(%{"id" => id} = params, _, socket) do
     {board_id, _} = Integer.parse(id)
+    overdue_cards = Cards.list_overdue_cards!(board_id)
 
     socket
     |> assign(:page_title, page_title(socket.assigns.live_action))
     |> assign(:board, Boards.get_board!(board_id))
     |> assign(:lists, Lists.list_lists_for_board(board_id))
+    |> assign(:overdue_cards, overdue_cards)
     |> apply_action(socket.assigns.live_action, params)
     |> then(fn s -> {:noreply, s} end)
   end
@@ -144,8 +146,16 @@ defmodule GrottoWeb.BoardLive.Show do
     Cards.get_card!(card)
     |> Cards.archive_card()
 
+    overdue_cards = Cards.list_overdue_cards!(socket.assigns.board.id)
+
     lists = Lists.list_lists_for_board(socket.assigns.board.id)
-    {:noreply, assign(socket, :lists, lists)}
+
+    {
+      :noreply,
+      socket
+      |> assign(:lists, lists)
+      |> assign(:overdue_cards, overdue_cards)
+    }
   end
 
   @impl true

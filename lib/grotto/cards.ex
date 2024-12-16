@@ -9,6 +9,7 @@ defmodule Grotto.Cards do
   alias Ecto.Multi
 
   alias Grotto.Lists
+  alias Grotto.Lists.List
   alias Grotto.Cards.Card
 
   @doc """
@@ -16,13 +17,27 @@ defmodule Grotto.Cards do
   """
   def list_archived_cards!(board_id) do
     Repo.all(
-      from l in Lists.List,
+      from l in List,
       where: l.board_id == ^board_id,
       join: c in Card,
       on: c.list_id == l.id,
       where: not is_nil(c.deleted_at),
       order_by: [desc: c.deleted_at],
       select: %{name: c.name, description: c.description, id: c.id, color: c.color, deleted_at: c.deleted_at, list: %{name: l.name}}
+    )
+  end
+
+  def list_overdue_cards!(board_id) do
+    {:ok, now} = DateTime.now("Etc/UTC")
+
+    Repo.all(
+      from l in List,
+      where: l.board_id == ^board_id,
+      join: c in Card,
+      on: c.list_id == l.id,
+      where: is_nil(c.deleted_at) and c.due_date <= ^now,
+      order_by: [desc: c.due_date],
+      select: %{name: c.name, id: c.id, color: c.color, due_date: c.due_date, list: %{name: l.name}}
     )
   end
 

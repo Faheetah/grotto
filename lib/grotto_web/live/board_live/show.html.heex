@@ -6,6 +6,43 @@
     </.inline_input>
     </div>
 
+    <div phx-click={JS.toggle(to: "#overdue-cards")}>
+      <%= if @overdue_cards != [] do %>
+      <.icon name="hero-bell-alert" class="w-8 h-8 text-red-700" />
+      <% else %>
+      <.icon name="hero-bell" class="w-8 h-8" />
+      <% end %>
+    </div>
+    <div class="relative">
+      <div id="overdue-cards" class="hidden absolute top-16 bg-neutral-100 p-2 w-96 border rounded">
+        <div class="ml-2 py-2">Overdue Cards</div>
+
+        <div
+          id={"overdue-card-#{card.id}"}
+          class="text-sm p-1"
+          phx-hook="Keydown"
+          draggable="true"
+          phx-hook="Drag"
+          phx-value-card={card.id}
+          :for={card <- @overdue_cards}
+        >
+          <.link patch={~p"/boards/#{@board}/cards/#{card.id}"}>
+          <div class={"hover:ring-2 ring-neutral-500 bg-white rounded border shadow border-neutral-200"}>
+            <%= if card.color do %>
+            <div class={"rounded-t #{color_card(card.color)} py-2"}></div>
+            <% end %>
+            <div class="p-2 break-words">
+              <div>
+                <%= card.name %>
+              </div>
+
+              <.local_time time={card.due_date} tz={@tz_offset} />
+            </div>
+          </div>
+          </.link>
+        </div>
+      </div>
+    </div>
     <div>
       <.link navigate={"/boards/#{@board.id}/archived"}>
         <.button class="text-neutral-700 bg-neutral-300 hover:bg-neutral-400">Archived Cards</.button>
