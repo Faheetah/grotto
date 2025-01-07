@@ -1,3 +1,4 @@
+<div id="showcard" phx-hook="Keydown">
 <.header class="shrink-0 w-full p-4 mb-4 bg-neutral-100">
   <div class="flex gap-4">
     <div class="grow">
@@ -20,7 +21,6 @@
         <div
           id={"overdue-card-#{card.id}"}
           class="text-sm p-1"
-          phx-hook="Keydown"
           draggable="true"
           phx-hook="Drag"
           phx-value-card={card.id}
@@ -64,7 +64,7 @@
   </div>
 </.header>
 
-<div id="card-list" phx-hook="Keydown" class="flex grow w-full overflow-auto m-auto gap-2 px-4">
+<div id="card-list" class="flex grow w-full overflow-auto m-auto gap-2 px-4">
   <%= for list <- @lists do %>
     <.live_component
       module={GrottoWeb.BoardLive.ListComponent}
@@ -81,6 +81,7 @@
       <span class="text-xl">+</span> Add a list
     </.inline_input>
   </div>
+</div>
 </div>
 
 <.card_modal :if={@live_action == :show_card} id="card-modal" show on_cancel={JS.patch(~p"/boards/#{@board}")}>
