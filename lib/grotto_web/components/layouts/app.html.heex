@@ -17,7 +17,7 @@
   </div>
 </header>
 
-<main class="flex flex-col grow overflow-hidden">
+<main class="flex flex-col grow overflow-hidden" id="main" phx-hook="Keydown">
   <.flash_group flash={@flash} />
   <%= @inner_content %>
 </main>

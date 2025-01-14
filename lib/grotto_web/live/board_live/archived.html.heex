@@ -25,7 +25,7 @@
 
   <div class="mx-auto p-2 bg-neutral-200 space-y-2 w-1/4 rounded shadow-sm shadow-neutral-400">
     <%= for card <- @cards do %>
-      <div phx-hook="Keydown" class="text-sm" tabindex="-1" id={"card-#{card.id}"} phx-value-card={card.id}>
+      <div class="text-sm" tabindex="-1" id={"card-#{card.id}"} phx-value-card={card.id}>
         <.link patch={~p"/boards/#{@board.id}/cards/#{card.id}"} phx-value-card={card.id}>
           <div class={"hover:ring-2 ring-neutral-500 bg-white rounded shadow"} phx-value-card={card.id}>
             <%= if card.color do %>
