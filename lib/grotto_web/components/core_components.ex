@@ -23,9 +23,12 @@ defmodule GrottoWeb.CoreComponents do
   Renders local time zone
   """
 
+  attr :class, :string, default: nil
+  attr :icon, :boolean, default: true
+
   def local_time(%{tz: tz, time: time} = assigns) when is_nil(tz) or is_nil(time) do
     ~H"""
-    <div />
+    <div class={@class} />
     """
   end
 
@@ -40,7 +43,12 @@ defmodule GrottoWeb.CoreComponents do
     assigns = assign(assigns, :color, color)
 
     ~H"""
-    <div class={["text-xs mt-2 font-bold", @color]}><.icon name="hero-calendar" class="w-3 h-4" /> <%= Timex.Timezone.convert(@time, @tz) |> Timex.format!("{WDshort} {Mshort} {D}, {YYYY}") %></div>
+    <div class={[@class || "text-xs mt-2 font-bold", @color]}>
+      <%= if @icon == true do %>
+      <.icon name="hero-calendar" class="w-3 h-4" />
+      <% end %>
+      <%= Timex.Timezone.convert(@time, @tz) |> Timex.format!("{WDshort} {Mshort} {D}, {YYYY}") %>
+    </div>
     """
   end
 

@@ -11,22 +11,29 @@ defmodule GrottoWeb.BoardLive.CardComponent do
         </.inline_input>
         <div class="mt-2 text-sm">in list <span class="font-medium"><%= @card.list.name %></span></div>
 
-        <.local_time time={@card.due_date} tz={@tz_offset} />
-        <form phx-submit="update_due_date">
-          <input class="w-60 inline" type="datetime-local" name="due_date" value={@card.due_date} />
-          <input type="hidden" name="card_id" value={@card.id} />
+        <div class="mt-4 text-xs">Due Date</div>
+        <div class="w-0 h-0">
+        <%= if @card.due_date do %>
+        <input id="picker" class="opacity-0" type="datetime-local" value={Timex.format!(@card.due_date, "%FT%T", :strftime)} phx-blur="update_due_date" phx-value-card_id={@card.id} />
+        <% else %>
+        <input id="picker" class="opacity-0" type="datetime-local" phx-blur="update_due_date" phx-value-card_id={@card.id} />
+        <% end %>
+        </div>
 
-          <.button phx-disable-with="Saving...">
-            Save
-          </.button>
-        </form>
+        <span phx-click={JS.dispatch("show-picker", to: "#picker")}>
+          <label for="picker">
+          <.icon name="hero-calendar-days" class="cursor-pointer h-6" />
+          </label>
+          <.local_time icon="false" class="inline text-md mt-2 font-medium" time={@card.due_date} tz={@tz_offset} value={@card.due_date} />
+        </span>
 
-        <div class="mt-2 text-sm">created <span class="font-medium"><%= @card.inserted_at.month %>/<%= @card.inserted_at.day %>/<%= @card.inserted_at.year %></span></div>
+        <div class="mt-2 text-xs">Created</div>
+        <div><span class="font-medium"><%= @card.inserted_at.month %>/<%= @card.inserted_at.day %>/<%= @card.inserted_at.year %></span></div>
       </div>
 
       <div class="space-y-8">
         <div id="card-view">
-          <.link id="card-view" onclick={"document.getElementById('card-input').style.display = 'block'; document.getElementById('card-input-field').focus(); document.getElementById('card-view').style.display = 'none';"}>
+          <.link onclick={"document.getElementById('card-input').style.display = 'block'; document.getElementById('card-input-field').focus(); document.getElementById('card-view').style.display = 'none';"}>
             <div class="space-y-4 text-sm p-2 w-72 w-full min-h-80 h-auto rounded">
               <div class="text-xl font-medium">Description</div>
 

@@ -105,7 +105,7 @@ defmodule GrottoWeb.BoardLive.Show do
   end
 
   @impl true
-  def handle_event("update_due_date", %{"card_id" => card_id, "due_date" => due_date}, socket) do
+  def handle_event("update_due_date", %{"card_id" => card_id, "value" => due_date}, socket) do
     {:ok, card} = Cards.update_due_date(Cards.get_card!(card_id), due_date)
 
     {:noreply, assign(socket, :card, card)}

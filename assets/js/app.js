@@ -44,3 +44,7 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
+
+window.addEventListener("show-picker", (e) => {
+  document.getElementById("picker").showPicker()
+})
